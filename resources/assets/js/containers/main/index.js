@@ -1,27 +1,59 @@
 import React from 'react'
-import { saveToken } from '../../lib'
+//import { connect } from 'react-redux'
+import { Route } from 'react-router-dom'
+import Navbar from '../../components/main/navbar'
+import Sidebar from '../../components/main/sidebar'
+import Content from '../../components/main/content'
+
+function mapStateToProps(state) {
+	return {
+    base: state.base,
+	}
+}
 
 export default class Main extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
     this.state = {}
-    this.logout = this.logout.bind(this)
+    this.switchContent = this.switchContent.bind(this)
   }
 
-  logout() {
-    const token = ''
-    saveToken(token)
-    this.props.history.go("/");
+  switchContent(path, text, params) {
+    if (path) {
+      this.setState({path: path},
+        () => {
+          const payload = {
+            page: `/${path}`,
+            title: text,
+            params: params,
+          }
+          this.props.history.push(payload.page)
+        }
+      )
+    }
   }
 
   render() {
+    const { path } = this.state
     return (
       <div>
-        main
-        <button type="button" className="btn btn-danger" onClick={this.logout}>
-          Danger
-        </button>
+        <Navbar />
+        <div className="container-fluid">
+          <div className="row">
+            <Sidebar switchContent={this.switchContent}/>
+            <main 
+              role="main" 
+              className="col-md-9 ml-sm-auto col-lg-10"
+              style={{paddingTop: 48}}
+            >
+              <Route path={`/${path}`} component={Content} />
+            </main>
+          </div>
+        </div>
       </div>
     )
   }
 }
+
+//export default Main
+//export default connect(mapStateToProps)(Main)
