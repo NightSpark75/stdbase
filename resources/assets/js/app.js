@@ -6,8 +6,13 @@ import {
   Route, 
   Switch 
 } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import configureStore from './store/configureStore'
 import Login from './containers/login'
 import Main from './containers/main'
+
+const store = configureStore();
+const app = document.getElementById('app')
 
 export default class App extends React.Component {
   constructor(props) {
@@ -18,23 +23,25 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ login: window.localStorage["jwt-token"] })
+    this.setState({ login: window.localStorage.getItem('jwt-token') })
   }
 
   render() {
     const { login } = this.state
     return (
-      <Router>
-        <Switch>
-          {login ?
-            <Route path="/" component={Main} />
-            :
-            <Route exact path='/' component={Login} />
-          }
-        </Switch>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <Switch>
+            {login ?
+              <Route path="/" component={Main} />
+              :
+              <Route exact path='/' component={Login} />
+            }
+          </Switch>
+        </Router>
+      </Provider>
     )
   }
 }
 
-ReactDOM.render((<App />), document.getElementById('app'))
+ReactDOM.render((<App />), app)

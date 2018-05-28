@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { logout } from '../../lib'
 //import { logout } from '../../api/auth'
 //import { connect } from 'react-redux'
 
@@ -15,11 +15,6 @@ class Navbar extends React.Component {
     this.state = {
       
     }
-    this.logout = this.logout.bind(this)
-  }
-
-  logout() {
-    window.localStorage['jwt-token'] = ''
   }
   
   render() {
@@ -46,16 +41,15 @@ class Navbar extends React.Component {
           style={{backgroundColor: 'rgb(0, 68, 128)'}}
         >
           <li className="nav-item text-nowrap">
-            <a 
-              className="nav-link" 
-              href="#"
+            <button 
+              className="btn btn-link nav-link" 
               style={{
                 color: '#FFF',
               }}
-              onClick={this.logout}
+              onClick={logout}
             >
               登出
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
