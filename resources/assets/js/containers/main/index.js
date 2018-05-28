@@ -4,11 +4,19 @@ import { Route } from 'react-router-dom'
 import Navbar from '../../components/main/navbar'
 import Sidebar from '../../components/main/sidebar'
 import Content from '../../components/main/content'
+import pages from '../../components/pages'
 
 function mapStateToProps(state) {
 	return {
     base: state.base,
 	}
+}
+
+function content(path, componentName = 'Page1') {
+  var component = pages[componentName]
+  return (
+    <Route path={'/' + path} component={component} />
+  )
 }
 
 export default class Main extends React.Component {
@@ -18,23 +26,25 @@ export default class Main extends React.Component {
     this.switchContent = this.switchContent.bind(this)
   }
 
-  switchContent(path, text, params) {
-    if (path) {
-      this.setState({path: path},
-        () => {
+  switchContent(path, componentName, text, params) {
+    if (path && componentName) {
+      this.setState({
+        path: path,
+        componentName: componentName, 
+      }, () => {
           const payload = {
-            page: `/${path}`,
+            path: '/' + path,
             title: text,
             params: params,
           }
-          this.props.history.push(payload.page)
+          this.props.history.push(payload.path)
         }
       )
     }
   }
 
   render() {
-    const { path } = this.state
+    const { path, componentName } = this.state
     return (
       <div>
         <Navbar />
@@ -46,7 +56,8 @@ export default class Main extends React.Component {
               className="col-md-9 ml-sm-auto col-lg-10"
               style={{paddingTop: 48}}
             >
-              <Route path={`/${path}`} component={Content} />
+              {content(path, componentName)}
+              {/* <Route path={`/${path}`} component={Content} /> */}
             </main>
           </div>
         </div>

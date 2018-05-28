@@ -1,7 +1,7 @@
 'use strict'
 import InitialState from './baseInitialState'
 import Actions from '../../constants/actions'
-import { pages } from '../../pages'
+//import { pages } from '../../pages'
 
 const {
   SET_KEY,
