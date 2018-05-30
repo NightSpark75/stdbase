@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Sys;
+namespace App\Models\System;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RoleUser extends Model
+class Routes extends Model
 {
     //
     public $incrementing = false;

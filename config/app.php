@@ -163,6 +163,8 @@ return [
         //guid
         Sujip\Guid\GuidServiceProvider::class,
 
+        //jwt
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
     ],
 
     /*
@@ -215,6 +217,8 @@ return [
         //guid
         'Guid' => Sujip\Guid\Guid::class,
 
+        //
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
     ],
 
 ];

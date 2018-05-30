@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Sys;
+namespace App\Models\System;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Parameters extends Model
+class RouteUser extends Model
 {
     //
     public $incrementing = false;
