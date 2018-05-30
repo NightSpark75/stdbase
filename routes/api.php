@@ -23,11 +23,7 @@ Route::group([
     'middleware' => 'jwt.auth',
     'prefix' => 'auth',
     'namespace' => 'Auth',
-], function ($router) {
-    
+], function () {
     Route::post('logout', 'JwtAuthController@logout');
     Route::post('refresh', 'JwtAuthController@refresh');
-    Route::get('test', 'JwtAuthController@test');
 });
-
-//Route::middleware('jwt.refresh')->post('/auth/refresh', 'Auth\JwtAuthController@refresh');

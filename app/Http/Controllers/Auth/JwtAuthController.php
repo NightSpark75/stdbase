@@ -14,7 +14,6 @@ class JwtAuthController extends Controller
     public function __construct(JwtService $jwt)
     {
         $this->jwt = $jwt;
-        //$this->middleware('jwt.auth', ['except' => ['login']]);
     }
 
     public function login(Request $request)
@@ -47,10 +46,5 @@ class JwtAuthController extends Controller
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 400);
         }
-    }
-
-    public function test()
-    {
-        return 'test';
     }
 }
