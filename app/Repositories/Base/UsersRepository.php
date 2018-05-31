@@ -10,4 +10,9 @@ class UsersRepository extends Repository {
     {
         return 'App\Models\Base\Users';
     }
+
+    public function getApps($id)
+    {
+        return $this->model->getApps()->where('users.id', $id)->get();
+    }
 }

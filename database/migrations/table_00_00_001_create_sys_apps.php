@@ -20,7 +20,7 @@ class CreateSysApps extends Migration
             $table->string('icon', 40);
             $table->string('component', 40)->nullable()->unique();
             $table->string('parent_id', 40)->nullable();
-            $table->integer('sequence');
+            $table->integer('seq');
             $table->boolean('active');
             $table->string('created_by', 40);
             $table->datetime('created_at');

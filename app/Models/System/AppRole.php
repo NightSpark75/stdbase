@@ -12,4 +12,8 @@ class AppRole extends Model
     public $incrementing = false;
     public $timestamps = false;
 
+    public function appInfo()
+    {
+        return $this->hasOne('App\Models\System\Apps', 'id', 'app_id');
+    }
 }

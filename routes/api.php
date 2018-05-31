@@ -33,7 +33,7 @@ Route::group([
     'prefix' => 'sys',
     'namespace' => 'System',
 ], function () {
-    Route::get('sidebar', 'SidebarController@sidebar');
+    Route::get('apps/list', 'AppsController@list');
 });
 
-Route::get('test', 'Auth\JwtAuthController@test');
+Route::get('test', 'System\AppsController@test');

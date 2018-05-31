@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->createAdministrator($faker);
         $this->createApps();
         $this->createRole();
+        $this->createNormalRole();
     }
 
     private function createSystemCompany() 
@@ -63,8 +64,20 @@ class DatabaseSeeder extends Seeder
     private function createApps()
     {
         $app_id = guid();
+        $par = [
+            'id' => $app_id, 
+            'path' => '/sys', 
+            'name' => '系統管理', 
+            'icon' => 'fas fa-cog', 
+            'component' => null, 
+            'parent_id' => null, 
+            'seq' => 999999999, 
+            'active' => true, 
+            'created_by' => 'laravel-seed', 
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        DB::table('sys_apps')->insert($par);
         $apps = [
-            ['/sys', '系統管理', 'fas fa-users', null, null, 999999999],
             ['/sys/users', '使用者管理', 'fas fa-users', 'users', $app_id, 1],
             ['/sys/companies', '公司管理', 'far fa-building', 'companies', $app_id, 2],
             ['/sys/departments', '組識管理', 'fas fa-sitemap', 'departments', $app_id, 3],
@@ -72,7 +85,6 @@ class DatabaseSeeder extends Seeder
             ['/sys/roles', '角色管理', 'fas fa-user-tag', 'roles', $app_id, 5],
             ['/sys/parameters', '參數管理', 'fas fa-cogs', 'parameters', $app_id, 6],
         ];
-
         foreach ($apps as $app) {
             DB::table('sys_apps')->insert([
                 'id' => guid(),
@@ -81,7 +93,7 @@ class DatabaseSeeder extends Seeder
                 'icon' => $app[2],
                 'component' => $app[3],
                 'parent_id' => $app[4],
-                'sequence' => $app[5],
+                'seq' => $app[5],
                 'active' => true,
                 'created_by' => 'laravel-seed',
                 'created_at' => date('Y-m-d H:i:s'),
@@ -110,13 +122,48 @@ class DatabaseSeeder extends Seeder
         ]);
         $apps = DB::table('sys_apps')->where('path', 'like', '/sys%')->get()->toArray();
         foreach ($apps as $app) {
-            DB::table('sys_app_role')->insert([
-                'id' => guid(),
-                'app_id' => $app->id,
-                'role_id' => $role_id,
-                'created_by' => 'laravel-seed',
-                'created_at' => date('Y-m-d H:i:s'),
-            ]);
+            if ($app->component !== 'companies' && $app->component !== 'departments') {
+                DB::table('sys_app_role')->insert([
+                    'id' => guid(),
+                    'app_id' => $app->id,
+                    'role_id' => $role_id,
+                    'created_by' => 'laravel-seed',
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
+        }
+    }
+
+    private function createNormalRole()
+    {
+        $role_id = guid();
+        DB::table('sys_roles')->insert([
+            'id' => $role_id,
+            'name' => 'normal',
+            'discription' => 'normal role',
+            'active' => true,
+            'created_by' => 'laravel-seed',
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
+        $user_id = DB::table('users')->where('account', 'administrator')->first()->id;
+        DB::table('sys_role_user')->insert([
+            'id' => guid(),
+            'role_id' => $role_id,
+            'user_id' => $user_id,
+            'created_by' => 'laravel-seed',
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
+        $apps = DB::table('sys_apps')->where('path', 'like', '/sys%')->get()->toArray();
+        foreach ($apps as $app) {
+            if ($app->component === 'companies' || $app->component === 'departments') {
+                DB::table('sys_app_user')->insert([
+                    'id' => guid(),
+                    'app_id' => $app->id,
+                    'user_id' => $user_id,
+                    'created_by' => 'laravel-seed',
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
         }
     }
 }
