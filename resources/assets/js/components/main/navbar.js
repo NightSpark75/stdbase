@@ -18,6 +18,7 @@ class Navbar extends React.Component {
   }
   
   render() {
+    const userName = window.localStorage['user-name']
     return (
       <nav 
         className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" 
@@ -34,24 +35,20 @@ class Navbar extends React.Component {
           Bland{/* 生達化學製藥 */}
         </a>
         <div style={{marginLeft: 15, width: '100%'}}>
-          <span className="text-light"></span>
+          <span className="text-light">
+            {'hi ~ ' + userName}
+          </span>
         </div>
-        <ul 
-          className="navbar-nav px-3" 
-          style={{backgroundColor: 'rgb(0, 68, 128)'}}
+        <button 
+          className="btn btn-link nav-link" 
+          style={{
+            color: '#FFF',
+            backgroundColor: 'rgb(0, 68, 128)',
+          }}
+          onClick={logout}
         >
-          <li className="nav-item text-nowrap">
-            <button 
-              className="btn btn-link nav-link" 
-              style={{
-                color: '#FFF',
-              }}
-              onClick={logout}
-            >
-              登出
-            </button>
-          </li>
-        </ul>
+          登出
+        </button>
       </nav>
     )
   }

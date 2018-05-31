@@ -29,14 +29,10 @@ class JwtService {
             if (! $user) {
                 throw new Exception('帳號或密碼錯誤!');
             }
-            $payload = [
-                'account' => $user->account,
-                'name' => $user->name,
-            ];
-            if (! $token = JWTAuth::fromUser($user, $payload)) {
+            if (! $token = JWTAuth::fromUser($user)) {
                 throw new Exception('Token建立失敗!');
             }
-            return $token;
+            return ['token' => $token, 'user' => $user];
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
             throw new Exception('伺服器錯誤:無法建立Token('.$e->getMessage().')');

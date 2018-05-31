@@ -6,6 +6,9 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
 use App\Services\System\JwtService;
+use App\Models\Base\Users;
+use App\Models\System\Roles;
+use App\Models\System\SRouteRole;
 
 class JwtAuthController extends Controller
 {
@@ -21,8 +24,8 @@ class JwtAuthController extends Controller
         try {
             $account = $request->input('account');
             $password = $request->input('password');
-            $token = $this->jwt->login($account, $password);
-            return response()->json(compact('token'), 200);
+            $result = $this->jwt->login($account, $password);
+            return response()->json($result, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);
         }
@@ -46,5 +49,14 @@ class JwtAuthController extends Controller
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 400);
         }
+    }
+
+    public function test()
+    {
+        $users = new Users();
+        $user = $users->first();
+        $roles = $user->roles;
+        $apps = $user->apps;
+        return compact('user', 'roles', 'roles', 'apps');
     }
 }

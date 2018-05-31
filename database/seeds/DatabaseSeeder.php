@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
     private function createSystemData($faker) 
     {
         $this->createAdministrator($faker);
-        $this->createRoutes();
+        $this->createApps();
         $this->createRole();
     }
 
@@ -60,28 +60,28 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 
-    private function createRoutes()
+    private function createApps()
     {
-        $sys_id = guid();
-        $routes = [
+        $app_id = guid();
+        $apps = [
             ['/sys', '系統管理', 'fas fa-users', null, null, 999999999],
-            ['/sys/users', '使用者管理', 'fas fa-users', 'users', $sys_id, 1],
-            ['/sys/companies', '公司管理', 'far fa-building', 'companies', $sys_id, 2],
-            ['/sys/departments', '組識管理', 'fas fa-sitemap', 'departments', $sys_id, 3],
-            ['/sys/routes', '路由管理', 'fas fa-road', 'routes', $sys_id, 4],
-            ['/sys/roles', '角色管理', 'fas fa-user-tag', 'roles', $sys_id, 5],
-            ['/sys/parameters', '參數管理', 'fas fa-cogs', 'parameters', $sys_id, 6],
+            ['/sys/users', '使用者管理', 'fas fa-users', 'users', $app_id, 1],
+            ['/sys/companies', '公司管理', 'far fa-building', 'companies', $app_id, 2],
+            ['/sys/departments', '組識管理', 'fas fa-sitemap', 'departments', $app_id, 3],
+            ['/sys/apps', '路由管理', 'fas fa-road', 'apps', $app_id, 4],
+            ['/sys/roles', '角色管理', 'fas fa-user-tag', 'roles', $app_id, 5],
+            ['/sys/parameters', '參數管理', 'fas fa-cogs', 'parameters', $app_id, 6],
         ];
 
-        foreach ($routes as $route) {
-            DB::table('sys_routes')->insert([
+        foreach ($apps as $app) {
+            DB::table('sys_apps')->insert([
                 'id' => guid(),
-                'path' => $route[0],
-                'name' => $route[1],
-                'icon' => $route[2],
-                'component' => $route[3],
-                'parent_id' => $route[4],
-                'sequence' => $route[5],
+                'path' => $app[0],
+                'name' => $app[1],
+                'icon' => $app[2],
+                'component' => $app[3],
+                'parent_id' => $app[4],
+                'sequence' => $app[5],
                 'active' => true,
                 'created_by' => 'laravel-seed',
                 'created_at' => date('Y-m-d H:i:s'),
@@ -108,11 +108,11 @@ class DatabaseSeeder extends Seeder
             'created_by' => 'laravel-seed',
             'created_at' => date('Y-m-d H:i:s'),
         ]);
-        $routes = DB::table('sys_routes')->where('path', 'like', '/sys%')->get()->toArray();
-        foreach ($routes as $route) {
-            DB::table('sys_route_role')->insert([
+        $apps = DB::table('sys_apps')->where('path', 'like', '/sys%')->get()->toArray();
+        foreach ($apps as $app) {
+            DB::table('sys_app_role')->insert([
                 'id' => guid(),
-                'route_id' => $route->id,
+                'app_id' => $app->id,
                 'role_id' => $role_id,
                 'created_by' => 'laravel-seed',
                 'created_at' => date('Y-m-d H:i:s'),

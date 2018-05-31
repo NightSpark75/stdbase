@@ -27,3 +27,13 @@ Route::group([
     Route::post('logout', 'JwtAuthController@logout');
     Route::post('refresh', 'JwtAuthController@refresh');
 });
+
+Route::group([
+    'middleware' => 'jwt.auth',
+    'prefix' => 'sys',
+    'namespace' => 'System',
+], function () {
+    Route::get('sidebar', 'SidebarController@sidebar');
+});
+
+Route::get('test', 'Auth\JwtAuthController@test');

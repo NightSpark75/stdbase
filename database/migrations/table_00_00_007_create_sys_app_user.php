@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSysRouteRole extends Migration
+class CreateSysAppUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSysRouteRole extends Migration
      */
     public function up()
     {
-        Schema::create('sys_route_role', function (Blueprint $table) {
+        Schema::create('sys_app_user', function (Blueprint $table) {
             $table->string('id', 40)->unique();
-            $table->string('route_id', 40);
-            $table->string('role_id', 40);
+            $table->string('app_id', 40);
+            $table->string('user_id', 40);
             $table->boolean('can_insert')->default(true);
             $table->boolean('can_update')->default(true);
             $table->boolean('can_delete')->default(true);
@@ -25,7 +25,7 @@ class CreateSysRouteRole extends Migration
             $table->string('deleted_by', 40)->nullable();
             $table->datetime('deleted_at')->nullable();
 
-            $table->primary(['route_id', 'role_id']);
+            $table->primary(['app_id', 'user_id']);
         });
     }
 
@@ -36,6 +36,6 @@ class CreateSysRouteRole extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sys_role_user');
+        Schema::dropIfExists('sys_app_user');
     }
 }

@@ -2,7 +2,8 @@ import React from 'react'
 import InputAccount from '../../components/login/inputAccount'
 import InputPassword from '../../components/login/inputPassword'
 import ButtonSubmit from '../../components/login/buttonSubmit'
-import { saveToken } from '../../lib'
+import { saveToken, saveUser } from '../../lib'
+import { login } from '../../api'
 
 const styles = {
   form: {
@@ -18,6 +19,10 @@ const styles = {
   messageBox: {
     height: 24,
     marginBottom: 16,
+    paddingLeft: 5,
+    paddingRight: 5,
+    color: '#dc3545',
+    fontWeight: 500,
   },
 }
 
@@ -25,8 +30,9 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      userId: '',
+      account: '',
       password: '',
+      message: '',
     }
     this.accountChange = this.accountChange.bind(this)
     this.passwordChange = this.passwordChange.bind(this)
@@ -34,7 +40,7 @@ export default class Login extends React.Component {
   }
 
   accountChange(e) {
-    this.setState({ userId: e.target.value })
+    this.setState({ account: e.target.value })
   }
 
   passwordChange(e) {
@@ -42,9 +48,19 @@ export default class Login extends React.Component {
   }
 
   login() {
-    const token = '123456789'
-    saveToken(token)
-    this.props.history.go("/");
+    const { account, password } = this.state
+    const success = (res) => {
+      let token = res.data.token
+      let user = res.data.user
+      saveToken(token)
+      saveUser(user)
+      this.props.history.go("/");
+    }
+    const error = (e) => {
+      this.setState({message: e.response.data})
+      console.log(e.response)
+    }
+    login(account, password, success, error)
   }
 
   render() {
@@ -53,6 +69,7 @@ export default class Login extends React.Component {
         <InputAccount onChange={this.accountChange} />
         <InputPassword onChange={this.passwordChange} />
         <div style={styles.messageBox}>
+          {this.state.message}
         </div>
         <ButtonSubmit onClick={this.login} />
       </div>

@@ -5,13 +5,15 @@ namespace App\Models\Base;
 use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Users extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use SoftDeletes;
 
-    //
+    protected $table = 'users';
     public $incrementing = false;
     public $timestamps = false;
 
@@ -37,5 +39,15 @@ class Users extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Models\System\Roles', 'sys_role_user', 'user_id', 'role_id', 'id');
+    }
+
+    public function apps()
+    {
+        return $this->hasManyThrough('App\Models\System\AppRole', 'App\Models\System\RoleUser', 'user_id', 'role_id', 'id', 'role_id');
     }
 }

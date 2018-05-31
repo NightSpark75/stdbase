@@ -22,3 +22,7 @@ export function parseToken(token = null) {
   }
   return null
 }
+
+export function saveUser(user) {
+  window.localStorage['user-name'] = user.name
+}
