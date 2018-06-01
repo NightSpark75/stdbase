@@ -42,7 +42,8 @@ class JwtAuthController extends Controller
     {
         try {
             $token = auth()->parseToken()->refresh();
-            return response()->json(compact('token'), 200);
+            $user = auth()->user();
+            return response()->json(compact('token', 'user'), 200);
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 400);
         }

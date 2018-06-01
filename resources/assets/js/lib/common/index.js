@@ -1,3 +1,5 @@
+import base64 from 'base-64'
+
 export function saveToken(token) {
   window.localStorage['jwt-token'] = token
   console.log('save token: ' + token)
@@ -23,6 +25,40 @@ export function parseToken(token = null) {
   return null
 }
 
-export function saveUser(user) {
+export function jwtPayload(token) {
+  try {
+    const code = token.split('.')[1]
+    let payload = base64.decode(code)
+    return JSON.parse(payload)
+  } catch (e) {
+    return null;
+  }
+}
+
+export function checkToken() {
+  const token = window.localStorage['jwt-token']
+  const code = token.split('.')[1]
+  const payload = JSON.parse(base64.decode(code))
+  const time = new Date().getTime()
+  if (payload.exp * 1000 < time) {
+    console.log('exp:' + payload.exp * 1000)
+    console.log('now:' + time)
+    console.log('need refresh token')
+    return false
+  } else {
+    console.log('exp:' + payload.exp * 1000)
+    console.log('now:' + time)
+    console.log('token exp authorized')
+    return true
+  }
+}
+
+export function saveUser(token, user) {
+  window.localStorage['jwt-token'] = token
   window.localStorage['user-name'] = user.name
+}
+
+export function removeUser() {
+  window.localStorage.removeItem('jwt-token')
+  window.localStorage.removeItem('user-name')
 }

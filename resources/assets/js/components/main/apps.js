@@ -52,7 +52,12 @@ export default class Apps extends React.Component {
               {item.name}
             </button>
             {this.state.active[index] === item.id && item.childs.length > 0 &&
-              <Apps list={item.childs} index={index + 1} />
+              <Apps 
+                list={item.childs} 
+                index={index + 1} 
+                switchContent={this.props.switchContent}
+                resize={this.props.resize}
+              />
             }
           </li>
         ))}

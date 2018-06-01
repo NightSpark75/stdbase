@@ -1,21 +1,21 @@
 import React from 'react'
-//import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import Navbar from '../../components/main/navbar'
 import Sidebar from '../../components/main/sidebar'
-import Content from '../../components/main/content'
-import pages from '../../components/pages'
+import pages from '../../pages'
+import { checkToken } from '../../lib'
+import { refreshToken } from '../../api'
 
 function mapStateToProps(state) {
-	return {
+  return {
     base: state.base,
-	}
+  }
 }
 
-function content(path, componentName = 'Page1') {
+function content(path, componentName) {
   var component = pages[componentName]
   return (
-    <Route path={'/' + path} component={component} />
+    <Route path={path} component={component} />
   )
 }
 
@@ -26,19 +26,25 @@ export default class Main extends React.Component {
     this.switchContent = this.switchContent.bind(this)
   }
 
+  componentWillMount() {
+    if (!checkToken()) {
+      refreshToken()
+    }
+  }
+
   switchContent(path, componentName, text, params) {
     if (path && componentName) {
       this.setState({
         path: path,
-        componentName: componentName, 
+        componentName: componentName,
       }, () => {
-          const payload = {
-            path: '/' + path,
-            title: text,
-            params: params,
-          }
-          this.props.history.push(payload.path)
+        const payload = {
+          path: path,
+          title: text,
+          params: params,
         }
+        this.props.history.push(payload.path)
+      }
       )
     }
   }
@@ -50,14 +56,13 @@ export default class Main extends React.Component {
         <Navbar />
         <div className="container-fluid">
           <div className="row">
-            <Sidebar switchContent={this.switchContent}/>
-            <main 
-              role="main" 
+            <Sidebar switchContent={this.switchContent} />
+            <main
+              role="main"
               className="col-md-9 ml-sm-auto col-lg-10"
-              style={{paddingTop: 48}}
+              style={{ paddingTop: 48 }}
             >
               {content(path, componentName)}
-              {/* <Route path={`/${path}`} component={Content} /> */}
             </main>
           </div>
         </div>
@@ -65,6 +70,3 @@ export default class Main extends React.Component {
     )
   }
 }
-
-//export default Main
-//export default connect(mapStateToProps)(Main)

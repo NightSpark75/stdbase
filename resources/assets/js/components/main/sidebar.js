@@ -12,6 +12,7 @@ export default class Sidebar extends React.Component {
     }
 
     this.flexHeight = this.flexHeight.bind(this)
+    this.switchContent = this.props.switchContent
   }
 
   componentDidMount() {
@@ -24,8 +25,10 @@ export default class Sidebar extends React.Component {
       this.setState({ list: res.data })
     }
     const error = (e) => {
-      this.setState({ message: e.response.data })
-      console.log(e.response)
+      const res = e.response
+      if (res.state = 401 && res.data.message === 'Token has expired') {
+
+      }
     }
     apps(success, error)
   }
@@ -52,7 +55,7 @@ export default class Sidebar extends React.Component {
           <Apps 
             list={list} 
             index={0} 
-            switchContent={this.props.switchContent}
+            switchContent={this.switchContent}
             resize={this.flexHeight}
           />
         </div>

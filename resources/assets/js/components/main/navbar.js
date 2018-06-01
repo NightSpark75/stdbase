@@ -1,7 +1,5 @@
 import React from 'react'
 import { logout } from '../../lib'
-//import { logout } from '../../api/auth'
-//import { connect } from 'react-redux'
 
 function mapStateToProps(state) {
 	return {
@@ -9,7 +7,7 @@ function mapStateToProps(state) {
 	}
 }
 
-class Navbar extends React.Component {
+export default class Navbar extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -53,6 +51,3 @@ class Navbar extends React.Component {
     )
   }
 }
-
-export default Navbar
-//export default connect(mapStateToProps)(Navbar)

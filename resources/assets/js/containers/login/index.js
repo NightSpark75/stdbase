@@ -2,7 +2,7 @@ import React from 'react'
 import InputAccount from '../../components/login/inputAccount'
 import InputPassword from '../../components/login/inputPassword'
 import ButtonSubmit from '../../components/login/buttonSubmit'
-import { saveToken, saveUser } from '../../lib'
+import { saveUser } from '../../lib'
 import { login } from '../../api'
 
 const styles = {
@@ -52,12 +52,11 @@ export default class Login extends React.Component {
     const success = (res) => {
       let token = res.data.token
       let user = res.data.user
-      saveToken(token)
-      saveUser(user)
+      saveUser(token, user)
       this.props.history.go("/");
     }
     const error = (e) => {
-      this.setState({message: e.response.data})
+      this.setState({ message: e.response.data })
       console.log(e.response)
     }
     login(account, password, success, error)
