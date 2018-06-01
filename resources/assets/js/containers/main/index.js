@@ -4,7 +4,6 @@ import Navbar from '../../components/main/navbar'
 import Sidebar from '../../components/main/sidebar'
 import pages from '../../pages'
 import { checkToken } from '../../lib'
-import { refreshToken } from '../../api'
 
 function mapStateToProps(state) {
   return {
@@ -27,9 +26,7 @@ export default class Main extends React.Component {
   }
 
   componentWillMount() {
-    if (!checkToken()) {
-      refreshToken()
-    }
+    checkToken()
   }
 
   switchContent(path, componentName, text, params) {

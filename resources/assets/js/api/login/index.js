@@ -3,6 +3,7 @@ import config from '../../config'
 import { saveUser, removeUser } from '../../lib'
 
 export function login(account, password, success, error) {
+  console.log('login')
   let formData = new FormData()
   formData.append('account', account)
   formData.append('password', password)

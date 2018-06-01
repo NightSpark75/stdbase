@@ -33,6 +33,7 @@ export default class Login extends React.Component {
       account: '',
       password: '',
       message: '',
+      submiting: false,
     }
     this.accountChange = this.accountChange.bind(this)
     this.passwordChange = this.passwordChange.bind(this)
@@ -56,10 +57,16 @@ export default class Login extends React.Component {
       this.props.history.go("/");
     }
     const error = (e) => {
-      this.setState({ message: e.response.data })
+      this.setState({ 
+        message: e.response.data,
+        submiting: false,
+      })
       console.log(e.response)
     }
-    login(account, password, success, error)
+    this.setState({ submiting: true }, () => {
+      login(account, password, success, error)
+    })
+
   }
 
   render() {
@@ -70,7 +77,7 @@ export default class Login extends React.Component {
         <div style={styles.messageBox}>
           {this.state.message}
         </div>
-        <ButtonSubmit onClick={this.login} />
+        <ButtonSubmit onClick={this.login} submiting={this.state.submiting}/>
       </div>
     )
   }

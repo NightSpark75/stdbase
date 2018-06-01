@@ -1,4 +1,5 @@
 import base64 from 'base-64'
+import { refreshToken } from '../../api'
 
 export function saveToken(token) {
   window.localStorage['jwt-token'] = token
@@ -37,19 +38,15 @@ export function jwtPayload(token) {
 
 export function checkToken() {
   const token = window.localStorage['jwt-token']
-  const code = token.split('.')[1]
-  const payload = JSON.parse(base64.decode(code))
-  const time = new Date().getTime()
-  if (payload.exp * 1000 < time) {
-    console.log('exp:' + payload.exp * 1000)
-    console.log('now:' + time)
-    console.log('need refresh token')
-    return false
-  } else {
-    console.log('exp:' + payload.exp * 1000)
-    console.log('now:' + time)
-    console.log('token exp authorized')
-    return true
+  if (token !== undefined && token !== null) {
+    console.log('check token')
+    const code = token.split('.')[1]
+    const payload = JSON.parse(base64.decode(code))
+    const time = new Date().getTime()
+    if (payload.exp * 1000 < time) {
+      console.log('refresh token')
+      refreshToken()
+    }
   }
 }
 
