@@ -25,8 +25,8 @@ class AppsService {
     {
         foreach ($apps as $app) {
             if ($app->parent_id === $parent_id) {
-                $childs = $this->appsTree($apps, $app->id, []);
-                $app->childs = $childs;
+                $children = $this->appsTree($apps, $app->id, []);
+                $app->children = $children;
                 array_push($tree, $app);
             }
         }

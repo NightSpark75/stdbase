@@ -23,7 +23,7 @@ export function refreshToken() {
       saveUser(token, user)
     }).catch((err) => {
       removeUser()
-      alert('帳號證認已過期或失效，請重新登入...')
+      //alert('帳號證認已過期或失效，請重新登入...')
       window.location = '/'
     })
 }

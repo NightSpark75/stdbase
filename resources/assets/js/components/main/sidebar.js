@@ -42,9 +42,10 @@ export default class Sidebar extends React.Component {
   render() {
     const { list } = this.state
     return (
-      <nav
-        className="col-sm-3 col-md-3 col-lg-2 col-xl-2 d-none d-md-block bg-light sidebar border-right"
+      <div
+        className="d-none d-md-block bg-light sidebar border-right"
         style={{
+          width: 260,
           padding: '48px 0 0'
         }}
       >
@@ -59,7 +60,7 @@ export default class Sidebar extends React.Component {
             resize={this.flexHeight}
           />
         </div>
-      </nav>
+      </div>
     )
   }
 }
