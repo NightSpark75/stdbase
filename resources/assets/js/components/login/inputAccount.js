@@ -10,6 +10,7 @@ export default class InputAccount extends React.Component {
         maxLength="20"
         defaultValue={this.props.defaultValue}
         onChange={this.props.onChange}
+        onKeyPress={this.props.onKeyPress}
       />
     )
   }

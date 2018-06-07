@@ -38,6 +38,7 @@ export default class Login extends React.Component {
     this.accountChange = this.accountChange.bind(this)
     this.passwordChange = this.passwordChange.bind(this)
     this.login = this.login.bind(this)
+    this.keyPress = this.keyPress.bind(this)
   }
 
   accountChange(e) {
@@ -48,8 +49,22 @@ export default class Login extends React.Component {
     this.setState({ password: e.target.value })
   }
 
+  keyPress(target) {
+    if (target.charCode == 13) {
+      this.login()
+    }
+  }
+
   login() {
     const { account, password } = this.state
+    if (account === '') {
+      this.setState({ message: '請輸入帳號' })
+      return
+    }
+    if (password === '') {
+      this.setState({ message: '請輸入密碼' })
+      return
+    }
     const success = (res) => {
       let token = res.data.token
       let user = res.data.user
@@ -57,7 +72,7 @@ export default class Login extends React.Component {
       this.props.history.go("/");
     }
     const error = (e) => {
-      this.setState({ 
+      this.setState({
         message: e.response.data,
         submiting: false,
       })
@@ -72,12 +87,18 @@ export default class Login extends React.Component {
   render() {
     return (
       <div style={styles.form}>
-        <InputAccount onChange={this.accountChange} />
-        <InputPassword onChange={this.passwordChange} />
+        <InputAccount
+          onChange={this.accountChange}
+          onKeyPress={this.keyPress}
+        />
+        <InputPassword
+          onChange={this.passwordChange}
+          onKeyPress={this.keyPress}
+        />
         <div style={styles.messageBox}>
           {this.state.message}
         </div>
-        <ButtonSubmit onClick={this.login} submiting={this.state.submiting}/>
+        <ButtonSubmit onClick={this.login} submiting={this.state.submiting} />
       </div>
     )
   }

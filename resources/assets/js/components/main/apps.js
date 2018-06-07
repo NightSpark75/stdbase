@@ -17,11 +17,14 @@ const listStyle = {
   width: '100%',
 }
 
-const listArrow = {
-  marginRight: 5,
-  float: 'right',
-  position: 'relative',
-  top: 5,
+const listArrow = (plus) => {
+  return {
+    marginRight: 5,
+    float: 'right',
+    position: 'relative',
+    top: 5,
+    color: plus? 'rgba(53, 53, 53, 0.76)': 'rgba(148, 148, 148, 0.76)',
+  }
 }
 
 export default class Apps extends React.Component {
@@ -69,10 +72,10 @@ export default class Apps extends React.Component {
               />
               {item.name}
               {item.children.length > 0 && this.state.active[index] === item.id &&
-                <span className="fas fa-minus" style={listArrow} />
+                <span className="fas fa-minus" style={listArrow(false)} />
               }
               {item.children.length > 0 && this.state.active[index] !== item.id &&
-                <span className="fas fa-plus" style={listArrow} />
+                <span className="fas fa-plus" style={listArrow(true)} />
               }
             </a>
             {item.children.length > 0 && this.state.active[index] === item.id &&

@@ -29,6 +29,7 @@ export default class Main extends React.Component {
 
   componentWillMount() {
     //checkToken()
+    console.log('token: ' + window.localStorage['jwt-token'])
   }
 
   switchContent(path, componentName, text, params) {
