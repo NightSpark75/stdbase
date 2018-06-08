@@ -7,7 +7,7 @@ export function login(account, password, success, error) {
   let formData = new FormData()
   formData.append('account', account)
   formData.append('password', password)
-  axios.post(config.url + '/auth/login', formData)
+  axios.post(config.url + 'auth/login', formData)
     .then((res) => {
       success(res)
     }).catch((err) => {
@@ -16,7 +16,7 @@ export function login(account, password, success, error) {
 }
 
 export function refreshToken() {
-  axios.post(config.url + '/auth/refresh')
+  axios.post(config.url + 'auth/refresh')
     .then((res) => {
       let token = res.data.token
       let user = res.data.user

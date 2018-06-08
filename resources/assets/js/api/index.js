@@ -6,7 +6,7 @@ import { refreshToken } from './login'
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage['jwt-token']
 axios.interceptors.request.use(function (request) {
   console.log('request: ' + request.url)
-  if (request.url !== config.url + '/auth/refresh') {
+  if (request.url !== config.url + 'auth/refresh') {
     checkToken()
   }
   return request;
@@ -22,7 +22,7 @@ axios.interceptors.response.use(function (response) {
   console.log('response error')
   console.log(error)
   const res = error.response
-  if (error.request.url !== config.url + '/auth/refresh') {
+  if (error.request.url !== config.url + 'auth/refresh') {
     if (res.status === 401 && res.data.message === 'User not found') {
       relogin('帳號認證有誤，請重新登入...')
       return Promise.reject(error);
