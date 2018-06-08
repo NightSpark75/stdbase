@@ -2,21 +2,13 @@
 import Actions from '../../constants/actions'
 
 const {
-  SET_KEY,
-  SET_PAGE,
+  SET_APPS,
 } = Actions
 
-export function setKey(key) {
+export function setApps(apps) {
   return {
-    type: SET_KEY,
-    payload: key,
-  }
-}
-
-export function setPage(page) {
-  return {
-    type: SET_PAGE,
-    payload: page,
+    type: SET_APPS,
+    payload: apps,
   }
 }
 

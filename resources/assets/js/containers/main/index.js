@@ -13,13 +13,6 @@ function mapStateToProps(state) {
   }
 }
 
-function content(path = '/', componentName = 'home') { 
-  var component = pages[componentName]
-  return (
-    <Route path={path} component={component} />
-  )
-}
-
 export default class Main extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -28,29 +21,22 @@ export default class Main extends React.Component {
   }
 
   componentWillMount() {
-    //checkToken()
     console.log('token: ' + window.localStorage['jwt-token'])
   }
 
-  switchContent(path, componentName, text, params) {
-    if (path && componentName) {
-      this.setState({
+  switchContent(path, text, params) {
+    if (path) {
+      const payload = {
         path: path,
-        componentName: componentName,
-      }, () => {
-        const payload = {
-          path: path,
-          title: text,
-          params: params,
-        }
-        this.props.history.push(payload.path)
+        title: text,
+        params: params,
       }
-      )
+      this.props.history.push(path)
     }
   }
 
   render() {
-    const { path, componentName } = this.state
+    const path = this.props.location.pathname
     return (
       <div>
         <Navbar title="" />
@@ -58,10 +44,9 @@ export default class Main extends React.Component {
           <Sidebar switchContent={this.switchContent} />
           <main
             role="main"
-            style={{ paddingTop: 48, paddingLeft: 7, width: 'calc(100% - 260px)'}}
+            style={{ paddingTop: 48, paddingLeft: 7, width: 'calc(100% - 260px)' }}
           >
-            {/* <Route path="/" component={Home} /> */}
-            {content(path, componentName)}
+            <Route path={path} component={pages[path]} />
           </main>
         </div>
       </div>

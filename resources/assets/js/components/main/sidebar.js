@@ -17,18 +17,21 @@ export default class Sidebar extends React.Component {
 
   componentDidMount() {
     this.setState({ wapperHeight: this.refs.wapper.clientHeight })
+    if (window.localStorage['apps']) {
+      console.log('loading local apps list')
+      this.setState({ list: JSON.parse(window.localStorage['apps']) })
+    }
     this.getApps()
   }
 
   getApps() {
     const success = (res) => {
+      console.log('refresh new apps list')
       this.setState({ list: res.data })
+      window.localStorage['apps'] = JSON.stringify(res.data)
     }
     const error = (e) => {
       const res = e.response
-      if (res.state = 401 && res.data.message === 'Token has expired') {
-
-      }
     }
     apps(success, error)
   }
@@ -53,9 +56,9 @@ export default class Sidebar extends React.Component {
           style={{ height: this.state.height }}
           ref="wapper"
         >
-          <Apps 
-            list={list} 
-            index={0} 
+          <Apps
+            list={list}
+            index={0}
             switchContent={this.switchContent}
             resize={this.flexHeight}
           />

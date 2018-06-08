@@ -44,12 +44,11 @@ export default class Apps extends React.Component {
       delete obj[index]
     }
     this.setState({ active: obj }, () => this.props.resize())
-    this.props.switchContent(item.path, item.component)
+    this.props.switchContent(item.path)
   }
 
   render() {
     const { list, index } = this.props
-
     return (
       <ul
         className="nav flex-column"

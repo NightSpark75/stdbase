@@ -6,10 +6,10 @@ import Roles from '../containers/system/Roles'
 import Parameters from '../containers/system/Parameters'
 
 export default {
-  users: Users,
-  companies: Companies,
-  departments: Departments,
-  apps: Apps,
-  roles: Roles,
-  parameters: Parameters,
+  '/sys/users': Users,
+  '/sys/companies': Companies,
+  '/sys/departments': Departments,
+  '/sys/apps': Apps,
+  '/sys/roles': Roles,
+  '/sys/parameters': Parameters,
 }

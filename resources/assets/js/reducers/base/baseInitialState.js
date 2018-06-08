@@ -2,9 +2,7 @@
 import { Record } from 'immutable'
 
 const InitialState = Record({
-  key: '',
-  page: null,
-  title: '',
+  apps: [],
 })
 export default InitialState
 
