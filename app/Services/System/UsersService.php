@@ -42,4 +42,10 @@ class UsersService {
         $result = $this->users->destroy($id);
         return $result;
     }
+
+    public function paginate($page)
+    {
+        $result = $this->users->paginate();
+        return $result;
+    }
 }

@@ -97,4 +97,10 @@ class UsersController extends Controller
         $destroy = $this->users->deleteUser($id);
         return response()->json($destroy);
     }
+
+    public function paginate($page)
+    {
+        $paginate = $this->users->paginate($page);
+        return response()->json($paginate);
+    }
 }

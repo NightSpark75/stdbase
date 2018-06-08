@@ -36,6 +36,7 @@ Route::group([
     Route::get('apps/list', 'AppsController@list');
 
     Route::resource('users', 'UsersController');
+    Route::get('/users/paginate/{page}', 'UsersController@paginate');
 });
 
 Route::get('test', 'System\AppsController@test');
