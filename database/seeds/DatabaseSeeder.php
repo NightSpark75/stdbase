@@ -12,10 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create('zh_TW');
-        // factory(App\Models\Base\Companies::class, 5)->create();
-        // factory(App\Models\Base\Users::class, 20)->create();
-        
+        $faker = Faker\Factory::create('zh_TW');       
         $this->createSystemData($faker);
     }
 
@@ -53,7 +50,7 @@ class DatabaseSeeder extends Seeder
             'account' => 'administrator',
             'name' => 'administrator',
             'email' => $faker->unique()->safeEmail,
-            'password' => $faker->randomNumber(),
+            'password' => 'administrator',
             'company_id' => $company_id,
             'active' => true,
             'created_by' => 'laravel-seed',
@@ -84,6 +81,7 @@ class DatabaseSeeder extends Seeder
             ['/sys/apps', '路由管理', 'fas fa-road', 'apps', $app_id, 4],
             ['/sys/roles', '角色管理', 'fas fa-user-tag', 'roles', $app_id, 5],
             ['/sys/parameters', '參數管理', 'fas fa-cogs', 'parameters', $app_id, 6],
+            ['', '人事基本資料', 'fas fa-user-edit', '', '', 999999100],
         ];
         foreach ($apps as $app) {
             DB::table('sys_apps')->insert([
