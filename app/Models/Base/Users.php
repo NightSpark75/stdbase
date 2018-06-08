@@ -58,13 +58,13 @@ class Users extends Authenticatable implements JWTSubject
             ->join('sys_app_role', 'sys_app_role.role_id', 'sys_role_user.role_id')
             ->join('sys_apps', 'sys_apps.id', 'sys_app_role.app_id')
             ->where('sys_apps.active', true)
-            ->select('sys_apps.id', 'sys_apps.path', 'sys_apps.name', 'sys_apps.icon', 'sys_apps.component', 'sys_apps.seq', 'sys_apps.parent_id');
+            ->select('sys_apps.id', 'sys_apps.path', 'sys_apps.name', 'sys_apps.icon', 'sys_apps.seq', 'sys_apps.parent_id');
         $apps = $this
             ->join('sys_app_user', 'users.id', 'sys_app_user.user_id')
             ->join('sys_apps', 'sys_apps.id', 'sys_app_user.app_id')
             ->where('sys_apps.active', true)
             ->union($appsByRole)
-            ->select('sys_apps.id', 'sys_apps.path', 'sys_apps.name', 'sys_apps.icon', 'sys_apps.component', 'sys_apps.seq', 'sys_apps.parent_id')
+            ->select('sys_apps.id', 'sys_apps.path', 'sys_apps.name', 'sys_apps.icon', 'sys_apps.seq', 'sys_apps.parent_id')
             ->orderBy('seq');
         return $apps;
     }

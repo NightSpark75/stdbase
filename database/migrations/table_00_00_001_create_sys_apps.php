@@ -15,10 +15,9 @@ class CreateSysApps extends Migration
     {
         Schema::create('sys_apps', function (Blueprint $table) {
             $table->string('id', 40);
-            $table->string('path', 40)->unique();
+            $table->string('path', 40)->nullable();
             $table->string('name', 40);
             $table->string('icon', 40);
-            $table->string('component', 40)->nullable()->unique();
             $table->string('parent_id', 40)->nullable();
             $table->integer('seq');
             $table->boolean('active');

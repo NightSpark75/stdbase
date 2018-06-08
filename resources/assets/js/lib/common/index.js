@@ -46,10 +46,32 @@ export function checkToken() {
     const time = date.getTime()
     if (payload.exp * 1000 < time) {
       console.log('token expired')
+      window.localStorage.removeItem('checkToken')
     } else if (payload.exp * 1000 < date.setMinutes(date.getMinutes() + 30)) {
       console.log('refresh token')
       refreshToken()
     }
+  }
+}
+
+export function tokenExpired() {
+  const token = window.localStorage['jwt-token']
+  if (token !== undefined && token !== null) {
+    console.log('check token expired')
+    const code = token.split('.')[1]
+    const payload = JSON.parse(base64.decode(code))
+    const date = new Date()
+    const time = date.getTime()
+    if (payload.exp * 1000 > time) {
+      return false
+    } else if (payload.exp * 1000 < date.setMinutes(date.getMinutes() + 30)) {
+      console.log('refresh token')
+      refreshToken()
+      return false
+    } else if (payload.exp * 1000 < time) {
+      console.log('token is expired')
+      return true
+    } 
   }
 }
 

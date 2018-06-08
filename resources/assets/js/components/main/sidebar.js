@@ -1,5 +1,5 @@
 import React from 'react'
-import { apps } from '../../api'
+import { getApps } from '../../api'
 import Apps from './apps'
 
 export default class Sidebar extends React.Component {
@@ -33,7 +33,7 @@ export default class Sidebar extends React.Component {
     const error = (e) => {
       const res = e.response
     }
-    apps(success, error)
+    getApps(success, error)
   }
 
   flexHeight() {

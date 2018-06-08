@@ -1,13 +1,14 @@
 import axios from 'axios'
 import config from '../config'
-import { checkToken, removeUser } from '../lib'
+import { checkToken, removeUser, tokenExpired } from '../lib'
 import { refreshToken } from './login'
 
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage['jwt-token']
 axios.interceptors.request.use(function (request) {
   console.log('request: ' + request.url)
-  if (request.url !== config.url + 'auth/refresh') {
-    checkToken()
+  if (tokenExpired()) {
+    relogin('帳號認證已過期...')
+    return
   }
   return request;
 }, function (error) {
@@ -43,3 +44,4 @@ function relogin(message) {
 
 export * from './login'
 export * from './main'
+export * from './system'

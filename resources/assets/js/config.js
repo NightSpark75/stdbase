@@ -7,5 +7,5 @@ const date = dt.getFullYear() + (dt.getMonth() + 1 < 10 ? '0' : '') + (dt.getMon
 export default {
   dt: dt,
   date: date,
-  url: location.href + 'api/',
+  url: '/api/',
 }

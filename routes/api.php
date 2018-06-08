@@ -34,6 +34,8 @@ Route::group([
     'namespace' => 'System',
 ], function () {
     Route::get('apps/list', 'AppsController@list');
+
+    Route::resource('users', 'UsersController');
 });
 
 Route::get('test', 'System\AppsController@test');

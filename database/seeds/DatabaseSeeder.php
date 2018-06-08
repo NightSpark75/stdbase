@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
     {
         $faker = Faker\Factory::create('zh_TW');       
         $this->createSystemData($faker);
+        factory(App\Models\Base\Companies::class, 3)->create();
+        factory(App\Models\Base\Users::class, 50)->create();
     }
 
     private function createSystemData($faker) 
@@ -63,10 +65,9 @@ class DatabaseSeeder extends Seeder
         $app_id = guid();
         $par = [
             'id' => $app_id, 
-            'path' => '/sys', 
+            'path' => null, 
             'name' => '系統管理', 
-            'icon' => 'fas fa-cog', 
-            'component' => null, 
+            'icon' => 'fas fa-cog',  
             'parent_id' => null, 
             'seq' => 999999999, 
             'active' => true, 
@@ -75,13 +76,13 @@ class DatabaseSeeder extends Seeder
         ];
         DB::table('sys_apps')->insert($par);
         $apps = [
-            ['/sys/users', '使用者管理', 'fas fa-users', 'users', $app_id, 1],
-            ['/sys/companies', '公司管理', 'far fa-building', 'companies', $app_id, 2],
-            ['/sys/departments', '組識管理', 'fas fa-sitemap', 'departments', $app_id, 3],
-            ['/sys/apps', '路由管理', 'fas fa-road', 'apps', $app_id, 4],
-            ['/sys/roles', '角色管理', 'fas fa-user-tag', 'roles', $app_id, 5],
-            ['/sys/parameters', '參數管理', 'fas fa-cogs', 'parameters', $app_id, 6],
-            ['', '人事基本資料', 'fas fa-user-edit', '', '', 999999100],
+            ['/sys/users', '使用者管理', 'fas fa-users', $app_id, 1],
+            ['/sys/companies', '公司管理', 'far fa-building', $app_id, 2],
+            ['/sys/departments', '組識管理', 'fas fa-sitemap', $app_id, 3],
+            ['/sys/apps', '路由管理', 'fas fa-road', $app_id, 4],
+            ['/sys/roles', '角色管理', 'fas fa-user-tag', $app_id, 5],
+            ['/sys/parameters', '參數管理', 'fas fa-cogs', $app_id, 6],
+            [null, '人事基本資料', 'fas fa-user-edit', null, 999999100],
         ];
         foreach ($apps as $app) {
             DB::table('sys_apps')->insert([
@@ -89,9 +90,8 @@ class DatabaseSeeder extends Seeder
                 'path' => $app[0],
                 'name' => $app[1],
                 'icon' => $app[2],
-                'component' => $app[3],
-                'parent_id' => $app[4],
-                'seq' => $app[5],
+                'parent_id' => $app[3],
+                'seq' => $app[4],
                 'active' => true,
                 'created_by' => 'laravel-seed',
                 'created_at' => date('Y-m-d H:i:s'),
@@ -118,9 +118,9 @@ class DatabaseSeeder extends Seeder
             'created_by' => 'laravel-seed',
             'created_at' => date('Y-m-d H:i:s'),
         ]);
-        $apps = DB::table('sys_apps')->where('path', 'like', '/sys%')->get()->toArray();
+        $apps = DB::table('sys_apps')->get()->toArray();
         foreach ($apps as $app) {
-            if ($app->component !== 'companies' && $app->component !== 'departments') {
+            if ($app->path !== '/sys/companies' && $app->path !== '/sys/departments') {
                 DB::table('sys_app_role')->insert([
                     'id' => guid(),
                     'app_id' => $app->id,
@@ -153,7 +153,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $apps = DB::table('sys_apps')->where('path', 'like', '/sys%')->get()->toArray();
         foreach ($apps as $app) {
-            if ($app->component === 'companies' || $app->component === 'departments') {
+            if ($app->path === '/sys/companies' || $app->path === '/sys/departments') {
                 DB::table('sys_app_user')->insert([
                     'id' => guid(),
                     'app_id' => $app->id,
