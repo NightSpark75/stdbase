@@ -57,7 +57,7 @@ abstract class Repository implements RepositoryInterface {
      * @param array $columns
      * @return mixed
      */
-    public function paginate($perPage = 7, $columns = array('*')) {
+    public function paginate($perPage = 15, $columns = array('*')) {
         return $this->model->paginate($perPage, $columns);
     }
 

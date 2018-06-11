@@ -13,12 +13,13 @@ export default class Tbody extends Component {
       hasAction,
       edit,
       destroy,
+      from,
     } = this.props
     return (
       <tbody>
         {body.map((object, index) => (
           <tr key={index}>
-            <td>{index + 1}</td>
+            <td>{from + index}</td>
             {head.map((item, index) => (
               <td key={item.key}>{object[item.key]}</td>
             ))}

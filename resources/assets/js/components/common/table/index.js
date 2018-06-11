@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Thead from './thead'
 import Tbody from './tbody'
+import Tfoot from './tfoot'
 import Paginate from '../paginate'
 
 export default class Table extends Component {
@@ -38,29 +39,32 @@ export default class Table extends Component {
     return (
       <div>
         <table className="table table-hover table-sm table-bordered table-striped">
-          {caption && 
+          {caption &&
             <caption>{caption}</caption>
           }
-          <Thead 
-            head={head} 
-            hasAction={hasAction} 
+          <Thead
+            head={head}
+            hasAction={hasAction}
           />
-          <Tbody 
-            head={head} 
-            body={body} 
-            hasAction={hasAction} 
+          <Tbody
+            head={head}
+            body={body}
+            hasAction={hasAction}
             edit={edit}
             destroy={destroy}
+            from={from}
+          />
+          <Tfoot
+            colSpan={hasAction ? head.length + 2 : head.length + 1}
+            from={from}
+            to={to}
+            total={total}
           />
         </table>
         {paginate && body.length > 0 &&
           <Paginate
             current={current}
             last={last}
-            from={from}
-            to={to}
-            per={per}
-            total={total}
             go={go}
           />
         }

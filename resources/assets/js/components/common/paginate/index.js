@@ -5,15 +5,19 @@ const setPages = (current, last) => {
   let arr = [], begin = 0, end = 0
   if (current <= 3 && current > 0) {
     begin = 1
-    end = 5
+    end = last > 5 ? 5 : last
   }
-  if (current + 2 >= last && last > 0) {
-    begin = last - 5
+  if (current + 2 >= last && current > 3) {
+    begin = last > 5 ? last - 4 : 1
     end = last
   }
   if (current > 3 && current + 2 < last) {
     begin = current - 2
     end = current + 2
+  }
+  if (last <= 7) {
+    begin = 1
+    end = last
   }
   while (begin <= end) {
     arr.push(begin)
@@ -30,10 +34,6 @@ export default class Paginate extends Component {
     const {
       current,
       last,
-      from,
-      to,
-      per,
-      total,
       go,
     } = this.props
     const pages = setPages(current, last)
@@ -45,13 +45,13 @@ export default class Paginate extends Component {
             text='上一頁'
             onClick={() => go(current - 1)}
           />
-          {pages[0] !== 1 &&
+          {pages[0] > 1 &&
             <Li disabled={false}
               text={1}
               onClick={() => go(1)}
             />
           }
-          {pages[0] !== 1 &&
+          {pages[0] > 1 &&
             <li className={'page-item disabled'}>
               <a className="page-link">...</a>
             </li>
@@ -64,12 +64,12 @@ export default class Paginate extends Component {
               onClick={() => go(object)}
             />
           ))}
-          {pages[pages.length - 1] !== last &&
+          {pages[pages.length - 1] < last &&
             <li className={'page-item disabled'}>
               <a className="page-link">...</a>
             </li>
           }
-          {pages[pages.length - 1] !== last &&
+          {pages[pages.length - 1] < last &&
             <Li disabled={false}
               text={last}
               onClick={() => go(last)}
