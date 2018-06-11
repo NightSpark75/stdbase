@@ -44,7 +44,7 @@ export default class Main extends React.Component {
           <Sidebar switchContent={this.switchContent} />
           <main
             role="main"
-            style={{ paddingTop: 48, paddingLeft: 7, width: 'calc(100% - 260px)' }}
+            style={{ paddingTop: 48, paddingLeft: 7, paddingRight: 7, width: 'calc(100% - 260px)' }}
           >
             <Route path={path} component={pages[path]} />
           </main>

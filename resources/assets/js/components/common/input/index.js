@@ -1,14 +1,13 @@
 import React from 'react'
 
 export default class Input extends React.Component {
-
   render() {
     const id = Math.ceil(Math.random() * 1000000000)
-    const { 
-      onChange, 
-      label, 
-      onKeyPress, 
-      type, 
+    const {
+      onChange,
+      label,
+      onKeyPress,
+      type,
       placeholder,
       maxLength,
       defaultValue,
@@ -20,14 +19,14 @@ export default class Input extends React.Component {
         <input
           id={id}
           className="form-control"
-          type={type||'text'}
-          placeholder={placeholder||''}
-          maxLength={maxLength||'30'}
-          defaultValue={defaultValue||''}
+          type={type || 'text'}
+          placeholder={placeholder || ''}
+          maxLength={maxLength || '30'}
+          defaultValue={defaultValue || ''}
           onChange={onChange}
           onKeyPress={onKeyPress}
         />
-        <small className="form-text text-muted">{message||''}</small>
+        <small className="form-text text-muted">{message || ''}</small>
       </div>
     )
   }

@@ -23,7 +23,7 @@ const listArrow = (plus) => {
     float: 'right',
     position: 'relative',
     top: 5,
-    color: plus? 'rgba(53, 53, 53, 0.76)': 'rgba(148, 148, 148, 0.76)',
+    color: plus ? 'rgba(53, 53, 53, 0.76)' : 'rgba(148, 148, 148, 0.76)',
   }
 }
 
@@ -36,14 +36,24 @@ export default class Apps extends React.Component {
     this.selectApps = this.selectApps.bind(this)
   }
 
-  selectApps(item, index) {
-    let obj = this.state.active
-    if (obj.length === 0 || obj[index] !== item.id) {
-      obj[index] = item.id
-    } else {
-      delete obj[index]
+  componentDidMount() {
+    if(window.localStorage['apps-active']) {
+      const active = JSON.parse(window.localStorage['apps-active'])
+      this.setState({ active: active })
     }
-    this.setState({ active: obj }, () => this.props.resize())
+  }
+
+  selectApps(item, index) {
+    let active = this.state.active
+    if (active.length === 0 || active[index] !== item.id) {
+      active[index] = item.id
+    } else {
+      delete active[index]
+    }
+    this.setState({ active: active }, () => {
+      this.props.resize()
+      window.localStorage['apps-active'] = JSON.stringify(active)
+    })
     this.props.switchContent(item.path)
   }
 

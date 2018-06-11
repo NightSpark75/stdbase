@@ -43,7 +43,7 @@ class UsersService {
         return $result;
     }
 
-    public function paginate($page)
+    public function paginate()
     {
         $result = $this->users->paginate();
         return $result;

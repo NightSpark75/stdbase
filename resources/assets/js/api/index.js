@@ -6,9 +6,12 @@ import { refreshToken } from './login'
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage['jwt-token']
 axios.interceptors.request.use(function (request) {
   console.log('request: ' + request.url)
-  if (tokenExpired()) {
-    relogin('帳號認證已過期...')
-    return
+  if (request.url !== '/api/auth/refresh' && request.url !== '/api/auth/login' && !window.localStorage['check-token']) {
+    window.localStorage['check-token'] = true
+    if (tokenExpired()) {
+      relogin('帳號認證已過期...')
+      return
+    }
   }
   return request;
 }, function (error) {

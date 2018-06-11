@@ -21,7 +21,9 @@ export function refreshToken() {
       let token = res.data.token
       let user = res.data.user
       saveUser(token, user)
+      window.localStorage['check-token'] = false
     }).catch((err) => {
+      window.localStorage['check-token'] = false
       removeUser()
       //alert('帳號證認已過期或失效，請重新登入...')
       window.location = '/'

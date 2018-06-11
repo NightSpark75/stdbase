@@ -98,9 +98,9 @@ class UsersController extends Controller
         return response()->json($destroy);
     }
 
-    public function paginate($page)
+    public function paginate()
     {
-        $paginate = $this->users->paginate($page);
+        $paginate = $this->users->paginate();
         return response()->json($paginate);
     }
 }
