@@ -11,6 +11,10 @@ export default class Table extends Component {
     this.destroy = this.destroy.bind(this)
   }
 
+  create() {
+    console.log('action create')
+  }
+
   edit() {
     console.log('action edit')
   }
@@ -24,6 +28,7 @@ export default class Table extends Component {
       head,
       body,
       hasAction = true,
+      create = this.create,
       edit = this.edit,
       destroy = this.destroy,
       caption,
@@ -45,6 +50,7 @@ export default class Table extends Component {
           <Thead
             head={head}
             hasAction={hasAction}
+            create={create}
           />
           <Tbody
             head={head}

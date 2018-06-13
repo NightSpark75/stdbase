@@ -44,8 +44,9 @@ class UsersService {
     }
 
     public function paginate()
-    {
-        $result = $this->users->paginate();
+    {   
+        $column = ['id', 'account' , 'name', 'email'];
+        $result = $this->users->paginate(15, $column);
         return $result;
     }
 }

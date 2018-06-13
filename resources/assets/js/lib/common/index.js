@@ -63,7 +63,7 @@ export function tokenExpired() {
     const date = new Date()
     const time = date.getTime()
     if (payload.exp * 1000 > time) {
-      window.localStorage['check-token'] = false
+      window.localStorage.removeItem('check-token')
       return false
     } else if (payload.exp * 1000 < date.setMinutes(date.getMinutes() + 30)) {
       console.log('refresh token')
@@ -71,11 +71,11 @@ export function tokenExpired() {
       return false
     } else if (payload.exp * 1000 < time) {
       console.log('token is expired')
-      window.localStorage['check-token'] = false
+      window.localStorage.removeItem('check-token')
       return true
     } 
   }
-  window.localStorage['check-token'] = false
+  window.localStorage.removeItem('check-token')
   return true
 }
 
@@ -87,6 +87,9 @@ export function saveUser(token, user) {
 
 export function removeUser() {
   console.log('remove user')
+  window.localStorage.removeItem('apps')
+  window.localStorage.removeItem('apps-active')
+  window.localStorage.removeItem('check-token')
   window.localStorage.removeItem('jwt-token')
   window.localStorage.removeItem('user-name')
 }

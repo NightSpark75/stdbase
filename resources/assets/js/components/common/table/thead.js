@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Button from '../button'
 
 export default class Thead extends Component {
   constructor(props) {
@@ -6,7 +7,7 @@ export default class Thead extends Component {
   }
 
   render() {
-    const { head, hasAction } = this.props
+    const { head, hasAction, create } = this.props
     return (
       <thead>
         <tr>
@@ -20,7 +21,9 @@ export default class Thead extends Component {
             </td>
           ))}
           {hasAction && 
-            <td></td>
+            <td>
+              <Button className='primary' size='sm' onClick={create} text='新增' />
+            </td>
           }
         </tr>
       </thead>
