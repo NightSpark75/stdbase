@@ -46,7 +46,9 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->input();
+        $create = $this->users->createUsers($params);
+        return response()->json($create);
     }
 
     /**

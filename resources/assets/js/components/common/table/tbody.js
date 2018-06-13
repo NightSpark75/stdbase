@@ -24,7 +24,7 @@ export default class Tbody extends Component {
               <td key={item.key}>{object[item.key]}</td>
             ))}
             {hasAction &&
-              <Action edit={edit} destroy={destroy}/>
+              <Action id={object.id} edit={edit} destroy={destroy}/>
             }
           </tr>
         ))}

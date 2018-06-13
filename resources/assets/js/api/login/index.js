@@ -9,6 +9,7 @@ export function login(account, password, success, error) {
   formData.append('password', password)
   axios.post(config.url + 'auth/login', formData)
     .then((res) => {
+      window.localStorage.removeItem('token-error')
       success(res)
     }).catch((err) => {
       error(err)
