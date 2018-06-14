@@ -14,9 +14,11 @@ export default function updateReducer(state = initialState, action) {
 
   switch (action.type) {
     case SET_OPEN_KEY:
+      window.localStorage['menuOpenKey'] = action.payload
       return state.set('openKey', action.payload)
 
     case SET_SELECTED_KEY:
+    window.localStorage['menuSelectKey'] = action.payload
       return state.set('selectedKey', action.payload)
 
   }

@@ -15,12 +15,10 @@ class Apps extends React.Component {
 
   onOpenChange(key) {
     this.props.dispatch(setOpenKey(key))
-    window.localStorage['menuOpenKey'] = key
   }
 
   onSelect(obj) {
     this.props.dispatch(setSelectedKey(obj.selectedKeys))
-    window.localStorage['menuSelectKey'] = obj.selectedKeys
   }
 
   menuList(list, change) {

@@ -9,8 +9,6 @@ class Header extends React.Component {
     this.goHome = this.goHome.bind(this)
   }
   goHome() {
-    window.localStorage.removeItem('menuOpenKey')
-    window.localStorage.removeItem('menuSelectKey')
     this.props.dispatch(setOpenKey([]))
     this.props.dispatch(setSelectedKey([]))
     this.props.history.push('/')

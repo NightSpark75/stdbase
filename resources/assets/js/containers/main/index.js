@@ -73,7 +73,6 @@ class Main extends React.Component {
             <Menu
               theme="dark"
               mode="horizontal"
-              defaultSelectedKeys={['2']}
               style={styles.headerMenu}
             >
               <Menu.Item key="logout" onClick={logout}>
