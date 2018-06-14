@@ -1,7 +1,8 @@
 import React from 'react'
 import axios from 'axios'
+import { Table, Icon, Divider } from 'antd';
 import { getUsers } from '../../../api'
-import Table from '../../../components/common/table'
+//import Table from '../../../components/common/table'
 import Confirm from '../../../components/common/modal'
 import EditUser from '../../../components/common/modal'
 import CreateUser from '../../../components/common/modal'
@@ -10,10 +11,33 @@ import Update from '../../../components/system/users/update'
 
 var source
 
+const { Column, ColumnGroup } = Table;
+
 const head = [
   { key: 'account', text: '帳號' },
   { key: 'name', text: '名稱' },
   { key: 'email', text: '電子信箱' },
+]
+
+const columns = [
+  { key: 'account', title: '帳號', dataIndex: 'account' },
+  { key: 'name', title: '名稱', dataIndex: 'name' },
+  { key: 'email', title: '電子信箱', dataIndex: 'email' },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (text, record) => (
+      <span>
+        <a href="javascript:;">Action 一 {record.name}</a>
+        <Divider type="vertical" />
+        <a href="javascript:;">Delete</a>
+        <Divider type="vertical" />
+        <a href="javascript:;" className="ant-dropdown-link">
+          More actions <Icon type="down" />
+        </a>
+      </span>
+    ),
+  }
 ]
 
 export default class Users extends React.Component {
@@ -151,20 +175,7 @@ export default class Users extends React.Component {
     return (
       <div>
         <h1>Users</h1>
-        <Table
-          head={head}
-          body={users}
-          create={this.createShow}
-          edit={this.editShow}
-          destroy={this.destroyShow}
-          current={current}
-          last={last}
-          from={from}
-          to={to}
-          per={per}
-          total={total}
-          go={this.getUsers}
-        />
+        <Table columns={columns} dataSource={data} />
         {createShow &&
           <CreateUser
             title='新增使用者'
