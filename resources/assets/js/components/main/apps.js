@@ -1,74 +1,32 @@
 import React from 'react'
-import { Menu, Icon } from 'antd';
-const SubMenu = Menu.SubMenu;
+import { connect } from 'react-redux'
+import { Menu } from 'antd'
+import { setOpenKey, setSelectedKey } from '../../reducers/base/baseAction'
 
-const itemStyle = (index) => {
-  return {
-    borderLeft: index > 0 ? 2 : 0,
-    marginLeft: index * 10,
-    borderLeftStyle: 'solid',
-    borderColor: '#003875c2',
-    width: '100% - ' + (index * 10) + 'px)',
-  }
-}
+const SubMenu = Menu.SubMenu
 
-const listStyle = {
-  textAlign: 'left',
-  color: '#003875c2',
-  fontWeight: 400,
-  width: '100%',
-}
-
-const listArrow = (plus) => {
-  return {
-    marginRight: 5,
-    float: 'right',
-    position: 'relative',
-    top: 5,
-    color: plus ? 'rgba(53, 53, 53, 0.76)' : 'rgba(148, 148, 148, 0.76)',
-  }
-}
-
-export default class Apps extends React.Component {
+class Apps extends React.Component {
   constructor(props, context) {
     super(props, context)
-    this.state = { }
-    this.selectApps = this.selectApps.bind(this)
     this.menuList = this.menuList.bind(this)
     this.onOpenChange = this.onOpenChange.bind(this)
     this.onSelect = this.onSelect.bind(this)
   }
 
-  componentDidMount() {
-    
-  }
-
-  selectApps(item, index) {
-    let active = this.state.active
-    if (active.length === 0 || active[index] !== item.id) {
-      active[index] = item.id
-    } else {
-      delete active[index]
-    }
-    this.setState({ active: active }, () => {
-      this.props.resize()
-      window.localStorage['apps-active'] = JSON.stringify(active)
-    })
-    this.props.switchContent(item.path)
-  }
-
   onOpenChange(key) {
-    localStorage['menuOpenKey'] = key
+    this.props.dispatch(setOpenKey(key))
+    window.localStorage['menuOpenKey'] = key
   }
 
   onSelect(obj) {
-    localStorage['menuSelectKey'] = obj.key
+    this.props.dispatch(setSelectedKey(obj.selectedKeys))
+    window.localStorage['menuSelectKey'] = obj.selectedKeys
   }
 
   menuList(list, change) {
     return (
       list.map((object) => (
-        object.children.length > 0 ? //&& active[index] === object.id ?
+        object.children.length > 0 ?
           <SubMenu 
             key={object.id} 
             title={menuTitle(object.icon, object.name)}
@@ -78,7 +36,7 @@ export default class Apps extends React.Component {
         :
           <Menu.Item 
             key={object.id} 
-            onClick={() => this.props.switchContent(object.path, object.text, [])}
+            onClick={() => this.props.switchContent(object.path)}
           >
             {object.name}
           </Menu.Item>
@@ -88,14 +46,13 @@ export default class Apps extends React.Component {
 
   render() {
     const { list } = this.props
-    let openKey = window.localStorage['menuOpenKey'] ? [window.localStorage['menuOpenKey']] : []
-    let selectedKey = window.localStorage['menuSelectKey'] ? [window.localStorage['menuSelectKey']] : []
     return (
       <Menu 
         style={{ height: this.props.height }} 
         mode="inline"
-        defaultOpenKeys={openKey}
-        defaultSelectedKeys={selectedKey}
+        forceSubMenuRender={true}
+        openKeys={this.props.base.openKey}
+        selectedKeys={this.props.base.selectedKey}
         onOpenChange={this.onOpenChange}
         onSelect={this.onSelect}
       >
@@ -109,8 +66,14 @@ function menuTitle(icon, text) {
   return (
     <span>
       <span className={icon} />
-      {/* <Icon type={icon} /> */}
       <span>{text}</span>  
     </span>
   )
 }
+
+function mapStateToProps(state) {
+  const { base } = state
+  return { base }
+}
+
+export default connect(mapStateToProps)(Apps)

@@ -2,7 +2,8 @@
 import { Record } from 'immutable'
 
 const InitialState = Record({
-  apps: [],
+  openKey: [],
+  selectedKey: [],
 })
 export default InitialState
 

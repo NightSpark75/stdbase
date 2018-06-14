@@ -34,11 +34,22 @@ class Login extends React.Component {
       password: '',
       message: '',
       submiting: false,
+      remember: false,
     }
     this.accountChange = this.accountChange.bind(this)
     this.passwordChange = this.passwordChange.bind(this)
     this.login = this.login.bind(this)
     this.keyPress = this.keyPress.bind(this)
+    this.rememberChange = this.rememberChange.bind(this)
+  }
+  
+  componentDidMount() {
+    if (window.localStorage['remember']) {
+      this.setState({
+        remember: true,
+        account: window.localStorage['remember'],
+      })
+    }
   }
 
   accountChange(e) {
@@ -62,6 +73,10 @@ class Login extends React.Component {
     });
   }
 
+  rememberChange(e) {
+    this.setState({ remember: e.target.checked })
+  }
+
   login() {
     const { account, password } = this.state
     if (account === '') {
@@ -83,6 +98,9 @@ class Login extends React.Component {
       this.errorMessage(e.response.data)
       console.log(e.response)
     }
+    if (this.state.remember) {
+      window.localStorage['remember'] = account
+    }
     this.setState({ submiting: true }, () => {
       login(account, password, success, error)
     })
@@ -94,6 +112,7 @@ class Login extends React.Component {
       <div className="login-form" style={styles.form}>
         <FormItem>
           {getFieldDecorator('userName', {
+            initialValue: this.state.account,
             rules: [{ required: true, message: '請輸入帳號!' }],
           })(
             <Input
@@ -120,9 +139,9 @@ class Login extends React.Component {
         <FormItem>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
-            initialValue: true,
+            initialValue: this.state.remember,
           })(
-            <Checkbox>記住帳號</Checkbox>
+            <Checkbox onChange={this.rememberChange}>記住帳號</Checkbox>
           )}
           <a className="login-form-forgot" href="" style={{ float: 'right' }}>忘記密碼</a>
           {!this.state.submiting &&

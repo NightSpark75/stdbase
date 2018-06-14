@@ -25,6 +25,7 @@
         "antd": "^3.6.2",
         "base-64": "^0.1.0",
         "bootstrap-sass": "^3.3.7",
+        "dva": "^2.3.1",
         "immutable": "^3.8.2",
         "key-mirror": "^1.0.1",
         "prop-types": "^15.6.1",

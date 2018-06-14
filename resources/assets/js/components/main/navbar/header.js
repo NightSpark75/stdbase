@@ -1,19 +1,26 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { withRouter } from "react-router-dom";
+import { setOpenKey, setSelectedKey } from '../../../reducers/base/baseAction'
 
-export default class Header extends React.Component {
+class Header extends React.Component {
   constructor(props, context) {
     super(props, context)
-    this.state = {
-
-    }
+    this.goHome = this.goHome.bind(this)
   }
-  render() {
+  goHome() {
+    window.localStorage.removeItem('menuOpenKey')
+    window.localStorage.removeItem('menuSelectKey')
+    this.props.dispatch(setOpenKey([]))
+    this.props.dispatch(setSelectedKey([]))
+    this.props.history.push('/')
+  }
+  render () {  
     return (
-      <div style={{ width: 200, backgroundColor: 'rgb(0, 68, 128)', paddingLeft: 10 }}>
-        <Link
-          className="navbar-brand"
-          to="/"
+      <div style={{ width: 256, backgroundColor: '#000000', paddingLeft: 24 }}>
+        <button
+          className="navbar-brand btn btn-link"
+          onClick={this.goHome}
           style={{
             padding: 0,
             lineHeight: '41px',
@@ -21,9 +28,11 @@ export default class Header extends React.Component {
             fontWeight: '700',
           }}
         >
-          Bland{/* 生達化學製藥 */}
-        </Link>
+          Bland
+        </button>
       </div>
     )
   }
 }
+
+export default connect()(withRouter(Header))
