@@ -1,17 +1,11 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
+import { Layout, Menu, Icon } from 'antd';
+const { Header, Content, Footer, Sider } = Layout;
+import Blade from '../../components/main/navbar/header'
 import Navbar from '../../components/main/navbar'
 import Sidebar from '../../components/main/sidebar'
 import pages from '../../pages'
-import Home from './home'
-
-import { checkToken } from '../../lib'
-
-function mapStateToProps(state) {
-  return {
-    base: state.base,
-  }
-}
 
 export default class Main extends React.Component {
   constructor(props, context) {
@@ -31,25 +25,36 @@ export default class Main extends React.Component {
         title: text,
         params: params,
       }
-      this.props.history.push(path)
+      this.props.history.push(payload.path)
     }
   }
 
   render() {
     const path = this.props.location.pathname
     return (
-      <div>
-        <Navbar title="" />
-        <div className="container-fluid" style={{ padding: 0, display: 'flex', flexWrap: 'nowrap' }}>
+      <Layout>
+        {/* <Navbar title="" /> */}
+        <Blade />
+        <Sider 
+          breakpoint="lg"
+          collapsedWidth="0"
+          onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
+          style={{ 
+            overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 41, background: '#fff' 
+          }}
+        >
           <Sidebar switchContent={this.switchContent} />
-          <main
-            role="main"
-            style={{ paddingTop: 48, paddingLeft: 7, paddingRight: 7, width: 'calc(100% - 260px)' }}
-          >
+        </Sider>
+        <Layout style={{ background: '#fff' }}>
+          {/* <Header style={{ background: '#fff', padding: 0 }} /> */}
+          <Content style={{ margin: '12px 8px 0', overflow: 'initial', background: '#fff' }}>
             <Route path={path} component={pages[path]} />
-          </main>
-        </div>
-      </div>
+          </Content>
+          {/* <Footer style={{ textAlign: 'center' }}>
+            Ant Design ©2016 Created by Ant UED
+          </Footer> */}
+        </Layout>
+      </Layout>
     )
   }
 }

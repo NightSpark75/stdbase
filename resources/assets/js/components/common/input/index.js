@@ -5,7 +5,6 @@ export default class Input extends React.Component {
     const id = Math.ceil(Math.random() * 1000000000)
     const {
       onChange,
-      label,
       onKeyPress,
       type,
       placeholder,

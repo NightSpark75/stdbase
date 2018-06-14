@@ -1,4 +1,6 @@
 import React from 'react'
+import { Menu, Icon } from 'antd';
+const SubMenu = Menu.SubMenu;
 
 const itemStyle = (index) => {
   return {
@@ -30,17 +32,15 @@ const listArrow = (plus) => {
 export default class Apps extends React.Component {
   constructor(props, context) {
     super(props, context)
-    this.state = {
-      active: [],
-    }
+    this.state = { }
     this.selectApps = this.selectApps.bind(this)
+    this.menuList = this.menuList.bind(this)
+    this.onOpenChange = this.onOpenChange.bind(this)
+    this.onSelect = this.onSelect.bind(this)
   }
 
   componentDidMount() {
-    if(window.localStorage['apps-active']) {
-      const active = JSON.parse(window.localStorage['apps-active'])
-      this.setState({ active: active })
-    }
+    
   }
 
   selectApps(item, index) {
@@ -57,47 +57,60 @@ export default class Apps extends React.Component {
     this.props.switchContent(item.path)
   }
 
-  render() {
-    const { list, index } = this.props
+  onOpenChange(key) {
+    localStorage['menuOpenKey'] = key
+  }
+
+  onSelect(obj) {
+    localStorage['menuSelectKey'] = obj.key
+  }
+
+  menuList(list, change) {
     return (
-      <ul
-        className="nav flex-column"
-        style={{ width: '100%' }}
-      >
-        {list.map((item) => (
-          <li
-            className="nav-item"
-            key={item.id}
-            style={itemStyle(index)}
+      list.map((object) => (
+        object.children.length > 0 ? //&& active[index] === object.id ?
+          <SubMenu 
+            key={object.id} 
+            title={menuTitle(object.icon, object.name)}
           >
-            <a
-              className="btn btn-link nav-link"
-              style={listStyle}
-              onClick={() => this.selectApps(item, index)}
-            >
-              <span
-                className={item.icon}
-                style={{ marginRight: 5 }}
-              />
-              {item.name}
-              {item.children.length > 0 && this.state.active[index] === item.id &&
-                <span className="fas fa-minus" style={listArrow(false)} />
-              }
-              {item.children.length > 0 && this.state.active[index] !== item.id &&
-                <span className="fas fa-plus" style={listArrow(true)} />
-              }
-            </a>
-            {item.children.length > 0 && this.state.active[index] === item.id &&
-              <Apps
-                list={item.children}
-                index={index + 1}
-                switchContent={this.props.switchContent}
-                resize={this.props.resize}
-              />
-            }
-          </li>
-        ))}
-      </ul>
+            {this.menuList(object.children, change)}
+          </SubMenu>
+        :
+          <Menu.Item 
+            key={object.id} 
+            onClick={() => this.props.switchContent(object.path, object.text, [])}
+          >
+            {object.name}
+          </Menu.Item>
+      ))
     )
   }
+
+  render() {
+    const { list } = this.props
+    let openKey = window.localStorage['menuOpenKey'] ? [window.localStorage['menuOpenKey']] : []
+    let selectedKey = window.localStorage['menuSelectKey'] ? [window.localStorage['menuSelectKey']] : []
+    return (
+      <Menu 
+        style={{ height: this.props.height }} 
+        mode="inline"
+        defaultOpenKeys={openKey}
+        defaultSelectedKeys={selectedKey}
+        onOpenChange={this.onOpenChange}
+        onSelect={this.onSelect}
+      >
+        {this.menuList(list, this.props.switchContent)}
+      </Menu>
+    )
+  }
+}
+
+function menuTitle(icon, text) {
+  return (
+    <span>
+      <span className={icon} />
+      {/* <Icon type={icon} /> */}
+      <span>{text}</span>  
+    </span>
+  )
 }

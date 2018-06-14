@@ -10,7 +10,7 @@ export default class Header extends React.Component {
   }
   render() {
     return (
-      <div style={{ width: 260, backgroundColor: 'rgb(0, 68, 128)', paddingLeft: 10 }}>
+      <div style={{ width: 200, backgroundColor: 'rgb(0, 68, 128)', paddingLeft: 10 }}>
         <Link
           className="navbar-brand"
           to="/"

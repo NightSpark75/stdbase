@@ -27,6 +27,6 @@ export function refreshToken() {
       window.localStorage['check-token'] = false
       removeUser()
       //alert('帳號證認已過期或失效，請重新登入...')
-      window.location = '/'
+      //window.location = '/'
     })
 }

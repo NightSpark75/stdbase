@@ -88,7 +88,8 @@ export function saveUser(token, user) {
 export function removeUser() {
   console.log('remove user')
   window.localStorage.removeItem('apps')
-  window.localStorage.removeItem('apps-active')
+  window.localStorage.removeItem('menuOpenKey')
+  window.localStorage.removeItem('menuSelectKey')
   window.localStorage.removeItem('check-token')
   window.localStorage.removeItem('jwt-token')
   window.localStorage.removeItem('user-name')

@@ -10,13 +10,14 @@ export default class Navbar extends React.Component {
         className="navbar navbar-dark fixed-top p-0 shadow"
         style={{ backgroundColor: 'rgb(0, 91, 171)' }}
       >
-        <div className="container-fluid" style={{ display: 'flex', padding: 0, flexWrap: 'nowrap' }}>
-          <Header />
-          <div style={{width: 'calc(100% - 260px)'}}>
+        <Header />
+        {/* <div className="container-fluid" style={{ display: 'flex', padding: 0, flexWrap: 'nowrap' }}>
+          
+          <div style={{width: '100%'}}>
             <Title />
             <Right />
           </div>
-        </div>
+        </div> */}
       </nav>
     )
   }

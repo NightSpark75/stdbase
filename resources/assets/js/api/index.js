@@ -1,7 +1,6 @@
 import axios from 'axios'
 import config from '../config'
-import { checkToken, removeUser, tokenExpired } from '../lib'
-import { refreshToken } from './login'
+import { removeUser, tokenExpired } from '../lib'
 
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage['jwt-token']
 axios.interceptors.request.use(function (request) {
@@ -26,9 +25,11 @@ axios.interceptors.response.use(function (response) {
   console.log('response error')
   console.log(error)
   const request = error.request
+  const response = error.response
   if (request) {
+    console.log(request)
     if (request.url !== config.url + 'auth/refresh' && window.localStorage['token-error'] !== 'Y') {
-      if (request.status === 401 && (requset.data.message === 'User not found' || request.data.message === 'Token has expired')) {
+      if (response.status === 401 && (response.data.message === 'User not found' || response.data.message === 'Token has expired')) {
         window.localStorage['token-error'] = 'Y'
         relogin('帳號認證已過期，請重新登入...')
         return null

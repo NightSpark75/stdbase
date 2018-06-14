@@ -7,7 +7,7 @@ export default class Sidebar extends React.Component {
     super(props, context)
     this.state = {
       list: [],
-      height: 'calc(100vh - 48px)',
+      height: 'calc(100vh - 41px)',
       wapperHeight: null,
     }
 
@@ -18,7 +18,7 @@ export default class Sidebar extends React.Component {
   componentDidMount() {
     this.setState({ wapperHeight: this.refs.wapper.clientHeight })
     if (window.localStorage['apps']) {
-      console.log('loading local apps list')
+      console.log('loading localStorage[\'apps\']')
       this.setState({ list: JSON.parse(window.localStorage['apps']) })
     }
     this.getApps()
@@ -26,41 +26,31 @@ export default class Sidebar extends React.Component {
 
   getApps() {
     const success = (res) => {
-      console.log('refresh new apps list')
+      console.log('set apps list')
       this.setState({ list: res.data })
       window.localStorage['apps'] = JSON.stringify(res.data)
     }
     const error = (e) => {
-      const res = e.response
+      console.log(e.response)
     }
     getApps(success, error)
   }
 
   flexHeight() {
     const { wapperHeight } = this.state
-    let height = this.refs.ulid_0 ? this.refs.ulid_0.clientHeight : 'calc(100vh - 48px)'
-    this.setState({ height: height > wapperHeight ? height : 'calc(100vh - 48px)' })
+    let height = this.refs.ulid_0 ? this.refs.ulid_0.clientHeight : 'calc(100vh - 41px)'
+    this.setState({ height: height > wapperHeight ? height : 'calc(100vh - 41px)' })
   }
 
   render() {
     const { list } = this.state
     return (
-      <div
-        className="d-none d-md-block bg-light sidebar border-right"
-        style={{
-          width: 260,
-          padding: '48px 0 0'
-        }}
-      >
-        <div
-          style={{ height: this.state.height }}
-          ref="wapper"
-        >
+      <div className="d-none d-md-block bg-light sidebar border-right">
+        <div ref="wapper" style={{ height: this.state.height }}>
           <Apps
             list={list}
-            index={0}
-            switchContent={this.switchContent}
-            resize={this.flexHeight}
+            switchContent={this.props.switchContent}
+            height={this.state.height}
           />
         </div>
       </div>
