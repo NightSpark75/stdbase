@@ -36,7 +36,8 @@ Route::group([
     Route::get('apps/list', 'AppsController@list');
 
     // users
-    Route::get('/users/paginate', 'UsersController@paginate')->name('users.paginate');
+    Route::get('/users/paginate', 'UsersController@paginate')
+        ->name('users.paginate');
     Route::resource('users', 'UsersController', 
         ['only' => ['index', 'show', 'store', 'edit', 'update', 'destroy']]);
 });

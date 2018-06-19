@@ -3,21 +3,21 @@
 namespace App\Services\System;
 
 use Exception;
-use App\Repositories\Base\UsersRepository as Users;
+use App\Repositories\Base\UserRepository as User;
 
 class AppsService {
 
-    private $users;
+    private $user;
 
-    public function __construct(Users $users)
+    public function __construct(User $user)
     {
-        $this->users = $users;
+        $this->user = $user;
     } 
 
     public function getApps()
     {
         $user = auth()->user();
-        $apps = $this->users->getApps($user->id);
+        $apps = $this->user->getApps($user->id);
         $tree = $this->appsTree($apps);
         return $tree;
     }

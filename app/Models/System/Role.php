@@ -5,7 +5,7 @@ namespace App\Models\System;
 use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Roles extends Model
+class Role extends Model
 {
     use SoftDeletes;
     

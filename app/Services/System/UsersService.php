@@ -3,7 +3,7 @@
 namespace App\Services\System;
 
 use Exception;
-use App\Repositories\Base\UsersRepository as Users;
+use App\Repositories\Base\UserRepository as Users;
 
 class UsersService {
 

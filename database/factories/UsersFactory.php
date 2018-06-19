@@ -3,7 +3,7 @@
 use Faker\Generator as Faker;
 use Faker\Factory as TWFaker;
 
-$factory->define(App\Models\Base\Companies::class, function (Faker $faker) {
+$factory->define(App\Models\Base\Company::class, function (Faker $faker) {
     $tw_faker = TWFaker::create('zh_TW');     
     return [
         'id' => guid(),
@@ -16,7 +16,7 @@ $factory->define(App\Models\Base\Companies::class, function (Faker $faker) {
 
 $factory->define(App\Models\Base\Users::class, function (Faker $faker) {
     $tw_faker = TWFaker::create('zh_TW'); 
-    $companies_ids = \App\Models\Base\Companies::pluck('id')->toArray();
+    $companies_ids = \App\Models\Base\Company::pluck('id')->toArray();
     return [
         'id' => guid(),
         'account' => $faker->userName,

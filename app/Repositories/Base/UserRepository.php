@@ -5,7 +5,7 @@ namespace App\Repositories\Base;
 use DB;
 use App\Repositories\Repository;
 
-class UsersRepository extends Repository {
+class UserRepository extends Repository {
 
     function model()
     {

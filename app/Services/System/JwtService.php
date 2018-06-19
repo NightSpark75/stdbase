@@ -6,15 +6,15 @@ use DB;
 use JWTAuth;
 use Exception;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use App\Repositories\Base\UsersRepository as Users;
+use App\Repositories\Base\UserRepository as User;
 
 class JwtService {
 
-    private $users;
+    private $user;
 
-    public function __construct(Users $users)
+    public function __construct(User $user)
     {
-        $this->users = $users;
+        $this->user = $user;
     }
     
     public function login($account, $password)
@@ -26,7 +26,7 @@ class JwtService {
                 ['password', '=', $password],
                 ['active', '=', true],
             ];
-            $user = $this->users->search($where)->first();
+            $user = $this->user->search($where)->first();
             if (! $user) {
                 throw new Exception('帳號或密碼錯誤!');
             }
