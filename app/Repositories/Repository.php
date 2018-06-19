@@ -1,4 +1,7 @@
-<?php namespace App\Repositories;
+<?php 
+
+namespace App\Repositories;
+
 /**
  * @version 1.0.0
  * @author spark Lin.yupin@standart.com.tw

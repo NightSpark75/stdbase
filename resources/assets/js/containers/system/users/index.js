@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Table, Icon, Divider } from 'antd';
+import { Table, Modal, Divider, Button, Form, Input, Radio } from 'antd';
 import { getUsers } from '../../../api'
 //import Table from '../../../components/common/table'
 import Confirm from '../../../components/common/modal'
@@ -11,34 +11,9 @@ import Update from '../../../components/system/users/update'
 
 var source
 
-const { Column, ColumnGroup } = Table;
+const FormItem = Form.Item;
 
-const head = [
-  { key: 'account', text: '帳號' },
-  { key: 'name', text: '名稱' },
-  { key: 'email', text: '電子信箱' },
-]
 
-const columns = [
-  { key: 'account', title: '帳號', dataIndex: 'account' },
-  { key: 'name', title: '名稱', dataIndex: 'name' },
-  { key: 'email', title: '電子信箱', dataIndex: 'email' },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text, record) => (
-      <span>
-        <a href="javascript:;">Action 一 {record.name}</a>
-        <Divider type="vertical" />
-        <a href="javascript:;">Delete</a>
-        <Divider type="vertical" />
-        <a href="javascript:;" className="ant-dropdown-link">
-          More actions <Icon type="down" />
-        </a>
-      </span>
-    ),
-  }
-]
 
 export default class Users extends React.Component {
   constructor(props) {
@@ -57,6 +32,8 @@ export default class Users extends React.Component {
         email: '',
       },
     }
+    this.getColumns = this.getColumns.bind(this)
+    this.getRowSelection = this.getRowSelection.bind(this)
     this.createShow = this.createShow.bind(this)
     this.createHide = this.createHide.bind(this)
     this.createUser = this.createUser.bind(this)
@@ -72,7 +49,7 @@ export default class Users extends React.Component {
 
   componentWillMount() {
     source = axios.CancelToken.source()
-    this.getUsers(1)
+    this.getUsers()
   }
 
   componentDidMount() {
@@ -83,21 +60,17 @@ export default class Users extends React.Component {
     source.cancel('cancel getUsers')
   }
 
-  getUsers(page) {
+  getUsers() {
     const success = (res) => {
-      console.log(res.data.data)
+      console.log(res.data)
       this.setState({
-        users: res.data.data,
-        current: res.data.current_page,
-        last: res.data.last_page,
-        from: res.data.from,
-        to: res.data.to,
-        per: res.data.per_page,
-        total: res.data.total,
+        users: res.data,
       })
     }
-    const error = (err) => { }
-    getUsers(page, success, error, source)
+    const error = (err) => { 
+      console.log(err)
+    }
+    getUsers(success, error, source)
   }
 
   createShow() {
@@ -158,24 +131,68 @@ export default class Users extends React.Component {
     //this.setState({ user: data })
   }
 
+  getColumns () {
+    const columns = [
+      { key: 'account', title: '帳號', dataIndex: 'account' },
+      { key: 'name', title: '名稱', dataIndex: 'name' },
+      { key: 'email', title: '電子信箱', dataIndex: 'email' },
+      {
+        title: 'Action',
+        key: 'action',
+        width: 130,
+        render: (text, record) => (
+          <span>
+            <Button size="small" onClick={this.createShow}>編輯</Button>
+            <Divider type="vertical" />
+            <Button type="danger" size="small" onClick={this.destroyShow}>刪除</Button>
+          </span>
+        ),
+      }
+    ]
+    return columns
+  }
+
+  getRowSelection() {
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      },
+      getCheckboxProps: record => ({
+        disabled: record.name === 'Disabled User', // Column configuration not to be checked
+        name: record.name,
+      }),
+      type: 'radio',
+    };
+    return rowSelection
+  }
+
   render() {
     const {
       users,
-      current,
-      last,
-      from,
-      to,
-      per,
-      total,
       createShow,
       editShow,
       destroyShow,
-      user,
     } = this.state
+    const columns = this.getColumns()
+    const rowSelection = this.getRowSelection()
     return (
       <div>
         <h1>Users</h1>
-        <Table columns={columns} dataSource={data} />
+        <Table 
+          rowKey="id"
+          columns={columns} 
+          dataSource={users} 
+          bordered={true}
+          size="small"
+          pagination={{ pageSize: 15 }}
+          rowSelection={rowSelection}
+        />
+        <CollectionCreateForm
+          //wrappedComponentRef={this.saveFormRef}
+          visible={createShow}
+          onCancel={this.createHide}
+          onCreate={this.createUser}
+        />
         {createShow &&
           <CreateUser
             title='新增使用者'
@@ -213,3 +230,44 @@ export default class Users extends React.Component {
     )
   }
 }
+
+const CollectionCreateForm = Form.create()(
+  class extends React.Component {
+    render() {
+      const { visible, onCancel, onCreate, form } = this.props;
+      const { getFieldDecorator } = form;
+      return (
+        <Modal
+          visible={visible}
+          title="Create a new collection"
+          okText="Create"
+          onCancel={onCancel}
+          onOk={onCreate}
+        >
+          <Form layout="vertical">
+            <FormItem label="Title">
+              {getFieldDecorator('title', {
+                rules: [{ required: true, message: 'Please input the title of collection!' }],
+              })(
+                <Input />
+              )}
+            </FormItem>
+            <FormItem label="Description">
+              {getFieldDecorator('description')(<Input type="textarea" />)}
+            </FormItem>
+            <FormItem className="collection-create-form_last-form-item">
+              {getFieldDecorator('modifier', {
+                initialValue: 'public',
+              })(
+                <Radio.Group>
+                  <Radio value="public">Public</Radio>
+                  <Radio value="private">Private</Radio>
+                </Radio.Group>
+              )}
+            </FormItem>
+          </Form>
+        </Modal>
+      );
+    }
+  }
+);
