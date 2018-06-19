@@ -2,14 +2,14 @@
 
 namespace App\Models\System;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Parameters extends Model
+class Apps extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'sys_parameters';
+    protected $table = 'sys_apps';
     public $incrementing = false;
     public $timestamps = false;
 }

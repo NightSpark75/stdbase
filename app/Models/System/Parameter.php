@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models\Base;
+namespace App\Models\System;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Companies extends Model
+class Parameters extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'companies';
+    protected $table = 'sys_parameters';
     public $incrementing = false;
     public $timestamps = false;
 }

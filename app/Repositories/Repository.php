@@ -119,8 +119,8 @@ abstract class Repository implements RepositoryInterface {
         try {
             if (count($where) !== 0) {
                 $model = $this->model;
-                $search = $model->where(function ($query) use ($where){
-                    for($i = 0; $i < count($where); $i++) {
+                $search = $model->where(function ($query) use ($where) {
+                    for ($i = 0; $i < count($where); $i++) {
                         $query->where($where[$i][0], $where[$i][1], $where[$i][2]);
                     }
                 });
@@ -140,9 +140,10 @@ abstract class Repository implements RepositoryInterface {
     {
         $model = $this->app->make($this->model());
 
-        if (!$model instanceof Model)
+        if (!$model instanceof Model) {
             throw new Exception("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
 
             return $this->model = $model;
+        }
     }
 }

@@ -9,7 +9,7 @@ class UsersRepository extends Repository {
 
     function model()
     {
-        return 'App\Models\Base\Users';
+        return 'App\Models\Base\User';
     }
 
     public function getApps($id)

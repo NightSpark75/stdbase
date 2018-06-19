@@ -13,12 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('jwt.auth')->get('users', function (Request $request) {
-    return auth()->user();
-});
-
+// auth
 Route::post('auth/login', 'Auth\JwtAuthController@login');
 
+// auth
 Route::group([
     'middleware' => 'jwt.auth',
     'prefix' => 'auth',
@@ -28,14 +26,20 @@ Route::group([
     Route::post('refresh', 'JwtAuthController@refresh');
 });
 
+// sys
 Route::group([
     'middleware' => 'jwt.auth',
     'prefix' => 'sys',
     'namespace' => 'System',
 ], function () {
+    // apps
     Route::get('apps/list', 'AppsController@list');
-    Route::get('/users/paginate', 'UsersController@paginate');
-    Route::resource('users', 'UsersController');
+
+    // users
+    Route::get('/users/paginate', 'UsersController@paginate')->name('users.paginate');
+    Route::resource('users', 'UsersController', 
+        ['only' => ['index', 'show', 'store', 'edit', 'update', 'destroy']]);
 });
 
+// test
 Route::get('test', 'System\AppsController@test');
