@@ -33,13 +33,13 @@ Route::group([
     'namespace' => 'System',
 ], function () {
     // apps
-    Route::get('apps/list', 'AppsController@list');
+    Route::get('apps/menu', 'AppsController@menu');
+    Route::resource('apps', 'AppsController')
+        ->only(['show', 'create', 'edit', 'update', 'destroy']);
 
     // users
-    Route::get('/users/paginate', 'UsersController@paginate')
-        ->name('users.paginate');
-    Route::resource('users', 'UsersController', 
-        ['only' => ['index', 'show', 'store', 'edit', 'update', 'destroy']]);
+    Route::resource('users', 'UsersController')
+        ->only(['show', 'create', 'edit', 'update', 'destroy']);
 });
 
 // test

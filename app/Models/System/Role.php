@@ -15,6 +15,6 @@ class Role extends Model
 
     public function apps()
     {
-        return $this->belongsToMany('App\Models\System\Apps', 'sys_app_role', 'role_id', 'app_id', 'id');
+        return $this->belongsToMany('App\Models\System\App', 'sys_app_role', 'role_id', 'app_id', 'id');
     }
 }

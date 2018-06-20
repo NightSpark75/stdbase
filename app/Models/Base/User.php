@@ -6,7 +6,7 @@ use App\Models\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\AuthModel as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -41,9 +41,18 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function authUser($account, $password, $active)
+    {
+        $user = $this->where('account', $account)
+            ->where('password', $password)
+            ->where('active', $active)->first();
+        return $user;
+    }
+
+
     public function roles()
     {
-        return $this->belongsToMany('App\Models\System\Roles', 'sys_role_user', 
+        return $this->belongsToMany('App\Models\System\Role', 'sys_role_user', 
             'user_id', 'role_id', 'id');
     }
 
@@ -70,6 +79,6 @@ class User extends Authenticatable implements JWTSubject
             ->select('sys_apps.id', 'sys_apps.path', 'sys_apps.name', 
                 'sys_apps.icon', 'sys_apps.seq', 'sys_apps.parent_id')
             ->orderBy('seq');
-        return $apps;
+        return $apps->get();
     }
 }

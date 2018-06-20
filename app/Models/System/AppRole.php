@@ -15,6 +15,6 @@ class AppRole extends Model
 
     public function appInfo()
     {
-        return $this->hasOne('App\Models\System\Apps', 'id', 'app_id');
+        return $this->hasOne('App\Models\System\App', 'id', 'app_id');
     }
 }
