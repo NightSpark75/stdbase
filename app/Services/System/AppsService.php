@@ -4,17 +4,14 @@ namespace App\Services\System;
 
 use Exception;
 use App\Models\Base\User;
-use App\Models\System\App;
 
 class AppsService {
 
     private $user;
-    private $app;
 
-    public function __construct(User $user, App $app)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->app = $app;
     } 
 
     public function getMenu()
@@ -35,11 +32,5 @@ class AppsService {
             }
         }
         return $tree; 
-    }
-
-    public function appList()
-    {
-        $list = $this->app->all();
-        return $list;
     }
 }
