@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Models\System;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Roles extends Model
+class Role extends Model
 {
     use SoftDeletes;
     
@@ -14,6 +15,6 @@ class Roles extends Model
 
     public function apps()
     {
-        return $this->belongsToMany('App\Models\System\Apps', 'sys_app_role', 'role_id', 'app_id', 'id');
+        return $this->belongsToMany('App\Models\System\App', 'sys_app_role', 'role_id', 'app_id', 'id');
     }
 }

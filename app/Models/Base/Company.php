@@ -1,14 +1,15 @@
 <?php
+
 namespace App\Models\Base;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Departments extends Model
+class Company extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'departments';
+    protected $table = 'companies';
     public $incrementing = false;
     public $timestamps = false;
 }

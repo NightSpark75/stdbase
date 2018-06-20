@@ -75,9 +75,9 @@ class Main extends React.Component {
               mode="horizontal"
               style={styles.headerMenu}
             >
-              <Menu.Item key="logout" onClick={logout}>
+              <Menu.Item key="logout" onClick={logout} style={{ background: 'rgb(0, 0, 0)' }}>
                 <span className="fas fa-sign-out-alt">
-                  <span>登出</span>
+                  <span style={{ fontWeight: '500' }}>登出</span>
                 </span>
               </Menu.Item>
             </Menu>

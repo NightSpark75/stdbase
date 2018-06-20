@@ -1,7 +1,8 @@
 <?php
+
 namespace App\Models\System;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AppUser extends Model

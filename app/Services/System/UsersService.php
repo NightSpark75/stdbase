@@ -1,52 +1,46 @@
 <?php
+
 namespace App\Services\System;
 
 use Exception;
-use App\Repositories\Base\UsersRepository as Users;
+use App\Models\Base\User;
 
-class UsersService {
+class usersService {
 
-    private $users;
+    private $user;
 
-    public function __construct(Users $users)
+    public function __construct(User $user)
     {
-        $this->users = $users;
+        $this->user = $user;
     } 
 
     public function getUsers()
     {
-        $users = $this->users->all();
-        return $users;
+        $user = $this->user->all();
+        return $user;
     }
 
     public function getUser($id)
     {
-        $user = $this->users->find($id);
+        $user = $this->user->find($id);
         return $user;
     }
 
-    public function createUsers($params)
+    public function createUser($params)
     {
-        $result = $this->users->create($params);
+        $result = $this->user->create($params);
         return $result;
     }
 
-    public function updateUsers($params, $id)
+    public function updateUser($params, $id)
     {
-        $result = $this->users->update($params, $id);
+        $result = $this->user->update($params, $id);
         return $result;
     }
 
-    public function deleteUsers($id)
+    public function destroyUser($id)
     {
-        $result = $this->users->destroy($id);
-        return $result;
-    }
-
-    public function paginate()
-    {   
-        $column = ['id', 'account' , 'name', 'email'];
-        $result = $this->users->paginate(15, $column);
+        $result = $this->user->destroy($id);
         return $result;
     }
 }

@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Models\System;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Parameters extends Model
+class Parameter extends Model
 {
     use SoftDeletes;
     

@@ -1,31 +1,26 @@
 <?php
+
 namespace App\Services\System;
 
 use DB;
 use JWTAuth;
 use Exception;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use App\Repositories\Base\UsersRepository as Users;
+use App\Models\Base\User;
 
 class JwtService {
 
-    private $users;
+    private $user;
 
-    public function __construct(Users $users)
+    public function __construct(User $user)
     {
-        $this->users = $users;
+        $this->user = $user;
     }
     
     public function login($account, $password)
     {
         try {
-            // attempt to verify the credentials and create a token for the user
-            $where = [
-                ['account' , '=' , $account],
-                ['password', '=', $password],
-                ['active', '=', true],
-            ];
-            $user = $this->users->search($where)->first();
+            $user = $this->user->authUser($account, $password, true);
             if (! $user) {
                 throw new Exception('帳號或密碼錯誤!');
             }

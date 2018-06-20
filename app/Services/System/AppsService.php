@@ -1,22 +1,26 @@
 <?php
+
 namespace App\Services\System;
 
 use Exception;
-use App\Repositories\Base\UsersRepository as Users;
+use App\Models\Base\User;
+use App\Models\System\App;
 
 class AppsService {
 
-    private $users;
+    private $user;
+    private $app;
 
-    public function __construct(Users $users)
+    public function __construct(User $user, App $app)
     {
-        $this->users = $users;
+        $this->user = $user;
+        $this->app = $app;
     } 
 
-    public function getApps()
+    public function getMenu()
     {
         $user = auth()->user();
-        $apps = $this->users->getApps($user->id);
+        $apps = $this->user->getApps($user->id);
         $tree = $this->appsTree($apps);
         return $tree;
     }
@@ -31,5 +35,11 @@ class AppsService {
             }
         }
         return $tree; 
+    }
+
+    public function appList()
+    {
+        $list = $this->app->all();
+        return $list;
     }
 }

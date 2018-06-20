@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
     {
         $faker = Faker\Factory::create('zh_TW');       
         $this->createSystemData($faker);
-        factory(App\Models\Base\Companies::class, 3)->create();
-        factory(App\Models\Base\Users::class, 50)->create();
+        factory(App\Models\Base\Company::class, 3)->create();
+        factory(App\Models\Base\User::class, 50)->create();
     }
 
     private function createSystemData($faker) 

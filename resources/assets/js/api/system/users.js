@@ -1,8 +1,8 @@
 import axios from 'axios'
 import config from '../../config'
 
-export function getUsers(page, success, error, source) {
-  axios.get(config.url + 'sys/users/paginate?page=' + page, {cancelToken: source.token})
+export function getUsers(success, error, source) {
+  axios.get(config.url + 'sys/users', {cancelToken: source.token})
   .then((res) => {
     success(res)
   }).catch((err) => {
