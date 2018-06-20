@@ -3,10 +3,9 @@
 namespace App\Services\System;
 
 use Exception;
-use App\Services\Service;
 use App\Models\Base\User;
 
-class usersService extends Service {
+class usersService {
 
     private $user;
 

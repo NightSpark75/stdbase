@@ -4,7 +4,6 @@ namespace App\Services\System;
 
 use Exception;
 use App\Models\Base\User;
-use App\Services\Service;
 use App\Models\System\App;
 
 class AppsService {

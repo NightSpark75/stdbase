@@ -19,10 +19,10 @@ class AppsController extends Controller
         return response()->json($menu);
     }
     
-    public function show()
+    public function index()
     {
-        $show = $this->service->appList();
-        return response()->json($show);
+        $index = $this->service->appList();
+        return response()->json($index);
     }
     
     public function create(Request $request)

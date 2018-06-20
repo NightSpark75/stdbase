@@ -8,17 +8,17 @@ use App\Services\System\UsersService;
 
 class UsersController extends Controller
 {
-    private $user;
+    private $service;
 
-    public function __construct(UsersService $user)
+    public function __construct(UsersService $service)
     {
-        $this->user = $user;
+        $this->service = $service;
     }
     
-    public function show()
+    public function index()
     {
-        $show = $this->service->getUsers();
-        return response()->json($show);
+        $index = $this->service->getUsers();
+        return response()->json($index);
     }
 
     public function create()
