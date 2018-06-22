@@ -12,7 +12,6 @@ const styles = {
     marginTop: 200,
     border: '0.5 solid',
     width: 300,
-    //height: 280,
     backgroundColor: 'rgb(232, 230, 230)',
     borderRadius: 4,
   },

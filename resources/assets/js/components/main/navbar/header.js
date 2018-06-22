@@ -15,7 +15,7 @@ class Header extends React.Component {
   }
   render () {  
     return (
-      <div style={{ width: 256, backgroundColor: '#000000', paddingLeft: 24 }}>
+      <div style={{ width: 256, backgroundColor: '#000', paddingLeft: 24, height: '41px' }}>
         <button
           className="navbar-brand btn btn-link"
           onClick={this.goHome}

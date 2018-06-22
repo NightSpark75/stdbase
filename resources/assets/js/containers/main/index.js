@@ -11,15 +11,6 @@ import { setOpenKey, setSelectedKey } from '../../reducers/base/baseAction'
 const { Header, Content, Sider } = Layout
 
 const styles = {
-  sider: {
-    overflow: 'auto',
-    height: '100vh',
-    position: 'fixed',
-    left: 0,
-    top: 41,
-    background: '#fff',
-  },
-  rightLayout: { background: '#fff' },
   header: {
     background: 'rgb(68, 68, 68)',
     padding: 0,
@@ -33,6 +24,7 @@ const styles = {
     margin: '12px 8px 0',
     overflow: 'initial',
     background: '#fff',
+    overflow: 'auto',
   },
 }
 
@@ -57,18 +49,12 @@ class Main extends React.Component {
   render() {
     const path = this.props.location.pathname
     return (
-      <Layout>
-        <Blade onClick={this.goHome}/>
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-          onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
-          width={256}
-          style={styles.sider}
-        >
+      <Layout style={{ minHeight: '100vh' }}>
+        <Sider width={256} style={{ backgroundColor: '#FFF' }}>
+          <Blade onClick={this.goHome} />
           <Sidebar switchContent={this.switchContent} />
         </Sider>
-        <Layout style={styles.rightLayout}>
+        <Layout style={{ backgroundColor: '#FFF' }}>
           <Header style={styles.header}>
             <Menu
               theme="dark"

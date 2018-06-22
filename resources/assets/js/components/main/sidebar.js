@@ -16,7 +16,7 @@ export default class Sidebar extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ wapperHeight: this.refs.wapper.clientHeight })
+    //this.setState({ wapperHeight: this.refs.wapper.clientHeight })
     if (window.localStorage['apps']) {
       console.log('loading localStorage[\'apps\']')
       this.setState({ list: JSON.parse(window.localStorage['apps']) })
@@ -45,15 +45,11 @@ export default class Sidebar extends React.Component {
   render() {
     const { list } = this.state
     return (
-      <div className="d-none d-md-block bg-light sidebar border-right">
-        <div ref="wapper" style={{ height: this.state.height }}>
-          <Apps
-            list={list}
-            switchContent={this.props.switchContent}
-            height={this.state.height}
-          />
-        </div>
-      </div>
+      <Apps
+        list={list}
+        switchContent={this.props.switchContent}
+        height={this.state.height}
+      />
     )
   }
 }

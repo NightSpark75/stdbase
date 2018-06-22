@@ -35,11 +35,11 @@ Route::group([
     // apps
     Route::get('apps/menu', 'AppsController@menu');
     Route::resource('apps', 'AppsController')
-        ->only(['index', 'create', 'edit', 'update', 'destroy']);
+        ->only(['index', 'store', 'edit', 'update', 'destroy']);
 
     // users
     Route::resource('users', 'UsersController')
-        ->only(['index', 'create', 'edit', 'update', 'destroy']);
+        ->only(['index', 'store', 'edit', 'update', 'destroy']);
 });
 
 // test

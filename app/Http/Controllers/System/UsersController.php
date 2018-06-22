@@ -5,45 +5,69 @@ namespace App\Http\Controllers\System;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\System\UsersService;
+use App\Models\Base\User;
 
 class UsersController extends Controller
 {
-    private $service;
-
-    public function __construct(UsersService $service)
+    public function __construct(User $model)
     {
-        $this->service = $service;
+        $this->model = $model;
     }
-    
+
     public function index()
     {
-        $index = $this->service->getUsers();
-        return response()->json($index);
+        try {
+            $index = $this->model->all();
+            return response()->json($index, 200);
+        } catch (\Exception $e) {
+            return response()->json($e, 400);
+        }
     }
 
-    public function create()
+    public function store()
     {
-        $params = request()->input();
-        $create = $this->service->createUser($params);
-        return response()->json($create);
+        try{
+            $params = request()->input();
+            $params['id'] = guid();
+            $params['active'] = true;
+            $params['password'] = '123456789';
+            $params['company_id'] = 'x';
+            $params['created_by'] = auth()->user()->id;
+            $params['created_at'] = now();
+            $this->model->insert($params);
+            $users = $this->model->all(); 
+            return response()->json($users, 200);
+        } catch (\Exception $e) {
+            return response()->json($e, 400);
+        }
     }
 
-    public function edit($id)
+    public function update(Request $request, $id)
     {
-        $edit = $this->service->editUser($id);
-        return response()->json($edit);
-    }
-
-    public function update($id)
-    {
-        $params = request()->input();
-        $update = $this->service->updateUser($params, $id);
-        return response()->json($update);
+        try {
+            $params = request()->input();
+            unset($params['id']);
+            $params['company_id'] = 'x';
+            $prams['created_by'] = auth()->user()->id;
+            $params['created_at'] = now();
+            $this->model->where('id', $id)->update($params);
+            $users = $this->model->all();
+            return response()->json($users, 200);
+        } catch (\Exception $e) {
+            return response()->json($e, 400);
+        }
     }
 
     public function destroy($id)
     {
-        $destroy = $this->service->destroyUser($id);
-        return response()->json($destroy);
+        try {
+            $user_id = auth()->user()->id;
+            $this->model->where('id', $id)->update(['deleted_by' => $user_id]);
+            $this->model->where('id', $id)->delete();
+            $users = $this->model->all();
+            return response()->json($users, 200);
+        } catch (\Exception $e) {
+            return response()->json($e, 400);
+        }
     }
 }
