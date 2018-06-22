@@ -49,7 +49,13 @@ class ApiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $params = request()->input();
+            $create = $this->model->create($params);
+            return response()->json($create);
+        } catch (Exception $e) {
+            return response()->json($e, 400);
+        }
     }
 
     /**

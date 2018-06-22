@@ -10,8 +10,9 @@ export function getUsers(success, error, source) {
   })
 }
 
-export function createUsers(params, success, error) {
-  axios.post(config.url + 'sys/users')
+export function createUser(params, success, error) {
+  console.log('create')
+  axios.post(config.url + 'sys/users', params)
   .then((res) => {
     success(res)
   }).catch((err) => {
@@ -19,8 +20,9 @@ export function createUsers(params, success, error) {
   })
 }
 
-export function updateUsers(params, id, success, error) {
-  axios.patch(config.url + 'sys/users/' + id)
+export function updateUser(params, id, success, error) {
+  console.log('update')
+  axios.patch(config.url + 'sys/users/' + id, params)
   .then((res) => {
     success(res)
   }).catch((err) => {
@@ -28,8 +30,8 @@ export function updateUsers(params, id, success, error) {
   })
 }
 
-export function destroyUsers(page, success, error) {
-  axios.delete(config.url + 'sys/users/paginate?page=' + page)
+export function destroyUser(id, success, error) {
+  axios.delete(config.url + 'sys/users/' + id)
   .then((res) => {
     success(res)
   }).catch((err) => {
