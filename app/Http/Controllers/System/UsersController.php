@@ -5,7 +5,7 @@ namespace App\Http\Controllers\System;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\System\UsersService;
-use App\Models\Base\User;
+use App\Models\System\User;
 
 class UsersController extends Controller
 {
@@ -31,7 +31,6 @@ class UsersController extends Controller
             $params['id'] = guid();
             $params['active'] = true;
             $params['password'] = '123456789';
-            $params['company_id'] = 'x';
             $params['created_by'] = auth()->user()->id;
             $params['created_at'] = now();
             $this->model->insert($params);

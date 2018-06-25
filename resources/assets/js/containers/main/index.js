@@ -7,7 +7,7 @@ import Sidebar from '../../components/main/sidebar'
 import pages from '../../pages'
 import { logout } from '../../lib'
 import { setOpenKey, setSelectedKey } from '../../reducers/base/baseAction'
-import Progress from "react-progress-2"
+import Progress from 'react-progress-2'
 import 'react-progress-2/main.css'
 
 const { Header, Content, Sider } = Layout

@@ -19,7 +19,6 @@ class CreateUsers extends Migration
             $table->string('name', 20);
             $table->string('email', 100)->unique();
             $table->string('password', 20);
-            $table->string('company_id', 40);
             $table->boolean('active');
             $table->string('created_by', 40);
             $table->datetime('created_at');

@@ -3,7 +3,7 @@
 namespace App\Services\System;
 
 use Exception;
-use App\Models\Base\User;
+use App\Models\System\User;
 
 class usersService {
 

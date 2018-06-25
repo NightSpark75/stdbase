@@ -6,7 +6,7 @@ use DB;
 use JWTAuth;
 use Exception;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use App\Models\Base\User;
+use App\Models\System\User;
 
 class JwtService {
 
