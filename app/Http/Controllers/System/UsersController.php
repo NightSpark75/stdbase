@@ -46,7 +46,6 @@ class UsersController extends Controller
         try {
             $params = request()->input();
             unset($params['id']);
-            $params['company_id'] = 'x';
             $prams['created_by'] = auth()->user()->id;
             $params['created_at'] = now();
             $this->model->where('id', $id)->update($params);

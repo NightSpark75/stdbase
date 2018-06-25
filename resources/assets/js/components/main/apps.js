@@ -34,6 +34,7 @@ class Apps extends React.Component {
         :
           <Menu.Item 
             key={object.id} 
+            //title={menuTitle(object.icon, object.name)}
             onClick={() => this.props.switchContent(object.path)}
           >
             {object.name}
@@ -61,6 +62,7 @@ class Apps extends React.Component {
 }
 
 function menuTitle(icon, text) {
+  console.log(icon)
   return (
     <span>
       <span className={icon} />

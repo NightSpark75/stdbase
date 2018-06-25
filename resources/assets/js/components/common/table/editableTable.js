@@ -84,6 +84,7 @@ export default class EditableTable extends React.Component {
     this.add = this.add.bind(this)
     this.searching = this.searching.bind(this)
     this.setSearchKey = this.setSearchKey.bind(this)
+    this.reload = this.reload.bind(this)
   }
 
   componentWillReceiveProps(newProps) {
@@ -92,6 +93,7 @@ export default class EditableTable extends React.Component {
         data: newProps.data,
         editId: '',
         source: newProps.data,
+        loading: false,
       })
     }
   }
@@ -279,11 +281,18 @@ export default class EditableTable extends React.Component {
     
     let arr = []
     source.map((obj) => { 
-      if (obj[searchKey].search(value) >= 0) {
-        arr.push(obj)
+      if (obj[searchKey]) {
+        if (obj[searchKey].search(value) >= 0) {
+          arr.push(obj)
+        }
       }
     })
     this.setState({ data: arr, searchString: value })
+  }
+
+  reload() {
+    this.setState({ loading: true })
+    this.props.reload()
   }
 
   render() {
@@ -293,7 +302,7 @@ export default class EditableTable extends React.Component {
     const components = this.getComponents()
     const scroll = this.props.tableWidth ? { x: this.props.tableWidth } : {}
     return (
-      <div>
+      <div className="editableTabel">
         <Button
           onClick={this.add}
           type="primary"
@@ -301,6 +310,14 @@ export default class EditableTable extends React.Component {
           disabled={data.length === 0}
         >
           <Icon type="file-add" />
+        </Button>
+        <Button
+          onClick={this.reload}
+          type="primary"
+          style={{ marginBottom: 16 }}
+          disabled={data.length === 0}
+        >
+          <Icon type="reload" />
         </Button>
         <Input.Search
           placeholder="輸入搜尋值..."

@@ -16,6 +16,7 @@ class User extends Authenticatable implements JWTSubject
     protected $table = 'users';
     public $incrementing = false;
     public $timestamps = false;
+    public $keyType = 'string';
 
     protected $hidden = [
         'password',

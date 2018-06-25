@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         $faker = Faker\Factory::create('zh_TW');       
         $this->createSystemData($faker);
-        factory(App\Models\Base\User::class, 50)->create();
+        factory(App\Models\System\User::class, 50)->create();
     }
 
     private function createSystemData($faker) 
@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
         $apps = [
             ['/sys/users', '使用者管理', 'fas fa-users', $app_id, 10],
             ['/sys/roles', '角色管理', 'fas fa-user-tag', $app_id, 20],
-            ['/sys/apps', '路由管理', 'fas fa-road', $app_id, 30],
+            ['/sys/apps', '功能模組管理', 'fas fa-road', $app_id, 30],
             ['/sys/parameters', '參數管理', 'fas fa-cogs', $app_id, 40],
             [null, '人事基本資料', 'fas fa-user-edit', null, 100000000],
         ];
@@ -98,15 +98,13 @@ class DatabaseSeeder extends Seeder
         ]);
         $apps = DB::table('sys_apps')->get()->toArray();
         foreach ($apps as $app) {
-            if ($app->path !== '/sys/companies' && $app->path !== '/sys/departments') {
-                DB::table('sys_app_role')->insert([
-                    'id' => guid(),
-                    'app_id' => $app->id,
-                    'role_id' => $role_id,
-                    'created_by' => 'laravel-seed',
-                    'created_at' => date('Y-m-d H:i:s'),
-                ]);
-            }
+            DB::table('sys_app_role')->insert([
+                'id' => guid(),
+                'app_id' => $app->id,
+                'role_id' => $role_id,
+                'created_by' => 'laravel-seed',
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
         }
     }
 
@@ -131,15 +129,13 @@ class DatabaseSeeder extends Seeder
         ]);
         $apps = DB::table('sys_apps')->where('path', 'like', '/sys%')->get()->toArray();
         foreach ($apps as $app) {
-            if ($app->path === '/sys/companies' || $app->path === '/sys/departments') {
-                DB::table('sys_app_user')->insert([
-                    'id' => guid(),
-                    'app_id' => $app->id,
-                    'user_id' => $user_id,
-                    'created_by' => 'laravel-seed',
-                    'created_at' => date('Y-m-d H:i:s'),
-                ]);
-            }
+            DB::table('sys_app_user')->insert([
+                'id' => guid(),
+                'app_id' => $app->id,
+                'user_id' => $user_id,
+                'created_by' => 'laravel-seed',
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
         }
     }
 }

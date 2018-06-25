@@ -20,11 +20,75 @@ class AppsController extends Controller
 
     public function menu()
     {
+        $r = request();
         $menu = $this->service->getMenu();
         return response()->json($menu);
     }
 
+    public function index()
+    {
+        try {
+            $r = request();
+            $index = $this->model->orderBy('seq')->get();
+            return response()->json($index, 200);
+        } catch (\Exception $e) {
+            return response()->json($e, 400);
+        }
+    }
+
+    public function store()
+    {
+        try{
+            $params = request()->input();
+            $params['id'] = guid();
+            $params['parent_id'] = $this->model->getParentId($params['seq']);
+            $params['active'] = true;
+            $params['created_by'] = auth()->user()->id;
+            $params['created_at'] = now();
+            $this->model->insert($params);
+            $users = $this->model->all(); 
+            return response()->json($users, 200);
+        } catch (\Exception $e) {
+            return response()->json($e, 400);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $params = request()->input();
+            unset($params['id']);
+            $params['parent_id'] = $this->model->getParentId($params['seq']);
+            $prams['created_by'] = auth()->user()->id;
+            $params['created_at'] = now();
+            $this->model->where('id', $id)->update($params);
+            $users = $this->model->all();
+            return response()->json($users, 200);
+        } catch (\Exception $e) {
+            return response()->json($e, 400);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $user_id = auth()->user()->id;
+            $this->model->where('id', $id)->update(['deleted_by' => $user_id]);
+            $this->model->where('id', $id)->delete();
+            $users = $this->model->all();
+            return response()->json($users, 200);
+        } catch (\Exception $e) {
+            return response()->json($e, 400);
+        }
+    }
+
     public function test()
+    {
+        $a = $this->model->getParentId(999999050);
+        return $a;
+    }
+
+    public function _test()
     {
         $html = "
             <H1>Laravel-snappy</H1>

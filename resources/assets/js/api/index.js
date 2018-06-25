@@ -9,7 +9,7 @@ axios.interceptors.request.use(function (request) {
   if (
     request.url !== '/api/auth/refresh' &&
     request.url !== '/api/auth/login' &&
-    request.url !== '/api/sys/apps/menu'
+    request.url !== '/api/sys/menu'
   ) {
     Progress.show()
   }
@@ -32,7 +32,7 @@ axios.interceptors.response.use(function (response) {
   if (
     response.config.url !== '/api/auth/refresh' &&
     response.config.url !== '/api/auth/login' &&
-    response.config.url !== '/api/sys/apps/menu'
+    response.config.url !== '/api/sys/menu'
   ) {
     Progress.hide()
   }

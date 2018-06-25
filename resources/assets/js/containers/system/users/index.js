@@ -56,6 +56,7 @@ export default class Users extends React.Component {
             create={createUser}
             update={updateUser}
             destroy={destroyUser}
+            reload={this.getUsers}
           />
         </div>
       </div>

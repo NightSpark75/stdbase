@@ -32,13 +32,18 @@ Route::group([
     'prefix' => 'sys',
     'namespace' => 'System',
 ], function () {
+    Route::get('menu', 'AppsController@menu');
+    
     // apps
-    Route::get('apps/menu', 'AppsController@menu');
     Route::resource('apps', 'AppsController')
         ->only(['index', 'store', 'edit', 'update', 'destroy']);
 
     // users
     Route::resource('users', 'UsersController')
+        ->only(['index', 'store', 'edit', 'update', 'destroy']);
+
+    // roles
+    Route::resource('roles', 'RolesController')
         ->only(['index', 'store', 'edit', 'update', 'destroy']);
 });
 
