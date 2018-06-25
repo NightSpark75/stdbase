@@ -1,6 +1,14 @@
 /node_modules
 /public/hot
 /public/storage
+/public/css/app.css
+/public/css/app.css.map
+/public/js/app.js
+/public/js/app.js.map
+/public/js/manifest.js
+/public/js/manifest.js.map
+/public/js/vendor.js
+/public/js/vendor.js.map
 /storage/*.key
 /vendor
 /.idea
