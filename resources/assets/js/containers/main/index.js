@@ -7,6 +7,8 @@ import Sidebar from '../../components/main/sidebar'
 import pages from '../../pages'
 import { logout } from '../../lib'
 import { setOpenKey, setSelectedKey } from '../../reducers/base/baseAction'
+import Progress from "react-progress-2"
+import 'react-progress-2/main.css'
 
 const { Header, Content, Sider } = Layout
 
@@ -50,6 +52,7 @@ class Main extends React.Component {
     const path = this.props.location.pathname
     return (
       <Layout style={{ minHeight: '100vh' }}>
+        <Progress.Component/>
         <Sider width={256} style={{ backgroundColor: '#FFF' }}>
           <Blade onClick={this.goHome} />
           <Sidebar switchContent={this.switchContent} />

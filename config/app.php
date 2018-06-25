@@ -167,6 +167,9 @@ return [
 
         //jwt
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
+        //laravel-snappy
+        Barryvdh\Snappy\ServiceProvider::class,
     ],
 
     /*
@@ -219,8 +222,12 @@ return [
         //guid
         'Guid' => Sujip\Guid\Guid::class,
 
-        //
+        //jwt
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+
+        //laravel-snappy
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
     ],
 
 ];

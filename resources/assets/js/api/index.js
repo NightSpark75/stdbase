@@ -1,10 +1,12 @@
 import axios from 'axios'
 import config from '../config'
 import { removeUser, tokenExpired } from '../lib'
+import Progress from 'react-progress-2'
 
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage['jwt-token']
 axios.interceptors.request.use(function (request) {
   console.log('request: ' + request.url)
+  Progress.show()
   if (request.url !== '/api/auth/refresh' && request.url !== '/api/auth/login' && window.localStorage['check-token'] !== 'Y') {
     window.localStorage['check-token'] = 'Y'
     if (tokenExpired()) {
@@ -20,7 +22,8 @@ axios.interceptors.request.use(function (request) {
 
 axios.interceptors.response.use(function (response) {
   console.log('response handling')
-  return response;
+  Progress.hide()
+  return response
 }, function (error) {
   console.log('response error')
   console.log(error)
