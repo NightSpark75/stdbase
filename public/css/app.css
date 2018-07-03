@@ -1,4 +1,11 @@
-@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);/*!
+@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);@font-face {
+  font-family: 'msjh';
+  font-style: normal;
+  font-weight: normal;
+  src: url(storage_path("fonts/msjh.ttc")) format("truetype");
+}
+
+/*!
  * Bootstrap v4.1.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.

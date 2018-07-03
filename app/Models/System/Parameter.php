@@ -12,4 +12,14 @@ class Parameter extends Model
     protected $table = 'sys_parameters';
     public $incrementing = false;
     public $timestamps = false;
+
+    public $keyType = 'string';
+
+    protected $hidden = [
+        'active',
+        'created_at',
+        'created_by',
+        'deleted_at',
+        'deleted_by',
+    ];
 }

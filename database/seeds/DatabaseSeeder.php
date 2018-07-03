@@ -57,9 +57,9 @@ class DatabaseSeeder extends Seeder
         DB::table('sys_apps')->insert($par);
         $apps = [
             ['/sys/users', '使用者管理', 'fas fa-users', $app_id, 10],
-            ['/sys/roles', '角色管理', 'fas fa-user-tag', $app_id, 20],
+            ['/sys/roles', '權限角色管理', 'fas fa-user-tag', $app_id, 20],
             ['/sys/apps', '功能模組管理', 'fas fa-road', $app_id, 30],
-            ['/sys/parameters', '參數管理', 'fas fa-cogs', $app_id, 40],
+            ['/sys/parameters', '系統參數管理', 'fas fa-cogs', $app_id, 40],
             [null, '人事基本資料', 'fas fa-user-edit', null, 100000000],
         ];
         foreach ($apps as $app) {

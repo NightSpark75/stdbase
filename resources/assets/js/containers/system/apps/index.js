@@ -6,10 +6,10 @@ import { getApps, createApps, updateApps, destroyApps } from '../../../api'
 let source
 
 const columns = [
-  { key: 'name', title: '名稱', dataIndex: 'name', editable: true, width: 200 },
-  { key: 'path', title: '路徑', dataIndex: 'path', editable: true, width: 200 },
-  { key: 'icon', title: '圖示', dataIndex: 'icon', editable: true, wdith: 260 },
-  { key: 'seq', title: '功能編號', dataIndex: 'seq', editable: true, wdith: 260 },
+  { key: 'name', title: '名稱', dataIndex: 'name', editable: true, width: 200},
+  { key: 'path', title: '路徑', dataIndex: 'path', editable: true, width: 200, required: false },
+  { key: 'icon', title: '圖示', dataIndex: 'icon', editable: true, wdith: 260},
+  { key: 'seq', title: '功能編號', dataIndex: 'seq', editable: true, wdith: 260},
 ]
 
 export default class Apps extends React.Component {

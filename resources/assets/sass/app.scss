@@ -1,7 +1,12 @@
 
 // Fonts
 @import url('https://fonts.googleapis.com/earlyaccess/notosanstc.css');
-
+@font-face {
+  font-family: 'msjh';
+  font-style: normal;
+  font-weight: normal;
+  src: url(storage_path('fonts/msjh.ttc')) format('truetype');
+}
 // Variables
 @import "variables";
 

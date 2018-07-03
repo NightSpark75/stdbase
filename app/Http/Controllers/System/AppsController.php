@@ -20,7 +20,6 @@ class AppsController extends Controller
 
     public function menu()
     {
-        $r = request();
         $menu = $this->service->getMenu();
         return response()->json($menu);
     }
@@ -28,7 +27,6 @@ class AppsController extends Controller
     public function index()
     {
         try {
-            $r = request();
             $index = $this->model->orderBy('seq')->get();
             return response()->json($index, 200);
         } catch (\Exception $e) {
@@ -46,8 +44,8 @@ class AppsController extends Controller
             $params['created_by'] = auth()->user()->id;
             $params['created_at'] = now();
             $this->model->insert($params);
-            $users = $this->model->all(); 
-            return response()->json($users, 200);
+            $apps = $this->model->orderBy('seq')->get(); 
+            return response()->json($apps, 200);
         } catch (\Exception $e) {
             return response()->json($e, 400);
         }
@@ -62,8 +60,8 @@ class AppsController extends Controller
             $prams['created_by'] = auth()->user()->id;
             $params['created_at'] = now();
             $this->model->where('id', $id)->update($params);
-            $users = $this->model->all();
-            return response()->json($users, 200);
+            $apps = $this->model->orderBy('seq')->get();
+            return response()->json($apps, 200);
         } catch (\Exception $e) {
             return response()->json($e, 400);
         }
@@ -75,22 +73,23 @@ class AppsController extends Controller
             $user_id = auth()->user()->id;
             $this->model->where('id', $id)->update(['deleted_by' => $user_id]);
             $this->model->where('id', $id)->delete();
-            $users = $this->model->all();
-            return response()->json($users, 200);
+            $apps = $this->model->orderBy('seq')->get();
+            return response()->json($apps, 200);
         } catch (\Exception $e) {
             return response()->json($e, 400);
         }
     }
 
-    public function test()
+    public function _test()
     {
         $a = $this->model->getParentId(999999050);
         return $a;
     }
 
-    public function _test()
+    public function test()
     {
         $html = "
+            <head><meta charset=\"UTF-8\"></head> 
             <H1>Laravel-snappy</H1>
             <H2>Laravel-snappy</H2>
             <H3>Laravel-snappy</H3>

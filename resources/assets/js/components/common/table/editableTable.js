@@ -3,6 +3,8 @@ import { Table, Modal, Divider, Button, Form, Input, Icon, Popconfirm, message, 
 
 const FormItem = Form.Item
 
+let propColumn
+
 export default class EditableTable extends React.Component {
   constructor(props) {
     super(props)
@@ -18,73 +20,34 @@ export default class EditableTable extends React.Component {
     this.columns = {
       title: '',
       key: 'action',
-      width: this.props.actionWidth || 100,
+      width: this.props.actionWidth || 95,
       render: (text, record) => {
         const editable = this.isEditing(record)
         return (
           <div style={{ overflow: 'visible' }}>
             {editable ? (
-              <span>
-                <EditableContext.Consumer>
-                  {form => (
-                    <Button
-                      type="primary"
-                      size="small"
-                      onClick={() => this.save(form, record.id)}
-                    >
-                      <Icon type="check" />
-                    </Button>
-                  )}
-                </EditableContext.Consumer>
-                <Divider type="vertical" />
-                <Popconfirm
-                  title="確定要取消?"
-                  onConfirm={() => this.cancel(record.id)}
-                >
-                  <Button
-                    type="danger"
-                    size="small"
-                  >
-                    <Icon type="close" />
-                  </Button>
-                </Popconfirm>
-              </span>
+              EditingAction(record, this.save, this.cancel)
             ) : (
-                <div>
-                  <Button
-                    type="primary"
-                    size="small"
-                    onClick={() => this.edit(record.id)}
-                  >
-                    <Icon type="edit" />
-                  </Button>
-                  <Divider type="vertical" />
-                  <Button
-                    type="danger"
-                    size="small"
-                    onClick={() => {
-                      Modal.confirm({
-                        title: '警告',
-                        content: '您確定要刪除資料嗎？',
-                        okText: '確定',
-                        cancelText: '取消',
-                        onOk: () => this.destroy(record.id),
-                      })
-                    }}
-                  >
-                    <Icon type="delete" />
-                  </Button>
-                </div>
-              )}
+              DefalutAction(record, this.edit, this.destroy)
+            )}
             {this.props.actions}
           </div>
         )
       },
     }
+    propColumn = this.props.columns
     this.add = this.add.bind(this)
     this.searching = this.searching.bind(this)
     this.setSearchKey = this.setSearchKey.bind(this)
     this.reload = this.reload.bind(this)
+    this.save = this.save.bind(this)
+    this.cancel = this.cancel.bind(this)
+    this.edit = this.edit.bind(this)
+    this.destroy = this.destroy.bind(this)
+  }
+
+  setTableColumns() {
+    
   }
 
   componentWillReceiveProps(newProps) {
@@ -108,9 +71,7 @@ export default class EditableTable extends React.Component {
 
   save(form, key) {
     form.validateFields((error, row) => {
-      if (error) {
-        return
-      }
+      if (error) return
       const newData = [...this.state.data]
       const index = newData.findIndex(item => key === item.id)
       if (index > -1) {
@@ -120,6 +81,20 @@ export default class EditableTable extends React.Component {
           ...row,
         })
         const data = newData[index]
+        const setSuccess = (msg) => {
+          const success = (res) => {
+            this.setState({
+              data: res.data,
+              editId: '',
+              loading: false,
+              source: res.data,
+            }, () => { 
+              message.success(msg)
+              this.searching(this.state.searchString)
+            })
+          }
+          return success
+        }
         const error = (err) => {
           console.log(err)
           const info = err.response.data.errorInfo
@@ -131,30 +106,10 @@ export default class EditableTable extends React.Component {
         }
         this.setState({ loading: true }, () => {
           if (key === 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx') {
-            const success = (res) => {
-              this.setState({
-                data: res.data,
-                editId: '',
-                loading: false,
-                source: res.data,
-              }, () => { 
-                message.success('資料新增成功')
-                this.searching(this.state.searchString)
-              })
-            }
+            const success = setSuccess('資料新增成功')
             this.props.create(data, success, error)
           } else {
-            const success = (res) => {
-              this.setState({
-                data: res.data,
-                editId: '',
-                loading: false,
-                source: res.data,
-              }, () => {
-                message.success('資料更新成功')
-                this.searching(this.state.searchString)
-              })
-            }
+            const success = setSuccess('資料更新成功')
             this.props.update(data, key, success, error)
           }
         })
@@ -170,7 +125,6 @@ export default class EditableTable extends React.Component {
     for (let i = 0; i < data.length; i++) {
       if (data[i].id === 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx') {
         data.splice(i, 1)
-        break
       }
     }
     this.setState({
@@ -393,8 +347,8 @@ class EditableCell extends React.Component {
                 <FormItem style={{ margin: 0 }}>
                   {getFieldDecorator(dataIndex, {
                     rules: [{
-                      required: true,
-                      message: `Please Input ${title}!`,
+                      required: columnRequire(dataIndex), 
+                      message: 'Please Input ' + title + '!',
                     }],
                     initialValue: record[dataIndex],
                   })(this.getInput(inputType))}
@@ -405,5 +359,57 @@ class EditableCell extends React.Component {
         }}
       </EditableContext.Consumer>
     )
+  }
+}
+
+const EditingAction = (record, save, cancel) => (
+  <span>
+    <EditableContext.Consumer>
+      {form => (
+        <Button type="primary" size="small" onClick={() => save(form, record.id)}>
+          <Icon type="check" />
+        </Button>
+      )}
+    </EditableContext.Consumer>
+    <Divider type="vertical" />
+    <Popconfirm title="確定要取消?" onConfirm={() => cancel(record.id)}>
+      <Button type="danger" size="small">
+        <Icon type="close" />
+      </Button>
+    </Popconfirm>
+  </span>
+)
+
+const DefalutAction = (record, edit, destroy) => (
+  <div>
+    <Button type="primary" size="small" onClick={() => edit(record.id)}>
+      <Icon type="edit" />
+    </Button>
+    <Divider type="vertical" />
+    <Button type="danger" size="small" onClick={() => destroyConfirm(record, destroy)}
+    >
+      <Icon type="delete" />
+    </Button>
+  </div>
+)
+
+const destroyConfirm = (record, destroy) => {
+  Modal.confirm({
+    title: '警告',
+    content: '您確定要刪除資料嗎？',
+    okText: '確定',
+    cancelText: '取消',
+    onOk: () => destroy(record.id),
+  })
+}
+
+function columnRequire(key) {
+  for (let i = 0; i < propColumn.length; i++) {
+    if (propColumn[i].key === key) {
+      if (propColumn[i].hasOwnProperty('required')) {
+        return propColumn[i].required
+      }
+      return true
+    }
   }
 }

@@ -21,15 +21,24 @@ class App extends Model
         'deleted_at',
         'deleted_by',
     ];
+
+    public function model() 
+    {
+        return $this;
+    }
     
     public function getParentId($seq)
     {
         $a = (int) (substr($seq, 0, 3).'000000');
         $b = (int) (substr($seq, 0, 6).'000');
-        $parent_id = $this->where('seq', $b)->first()->id;
-        if ($parent_id) {
-            return $parent_id;
+        $parent = $this->where('seq', $b)->where('seq', '<>', $seq)->first();
+        if ($parent) {
+            return $parent->id;
         }
-        return $parent_id = $this->where('seq', $a)->first()->id;
+        $parent = $this->where('seq', $a)->where('seq', '<>', $seq)->first();
+        if ($parent) {
+            $parent->id;
+        }
+        return null;
     }
 }
