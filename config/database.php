@@ -1,12 +1,5 @@
 <?php
 
-$url = parse_url(getenv("DATABASE_URL"));
-$host = $url["host"];
-$port = $url["port"];
-$username = $url["user"];
-$password = $url["pass"];
-$database = ltrim($url["path"], "/");
-
 return [
 
     /*
@@ -64,16 +57,16 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            //'host' => parse_url(getenv('DATABASE_URL'), PHP_URL_HOST),
-            'host'     => $host,
-            //'port' => parse_url(getenv('DATABASE_URL'), PHP_URL_PORT),
-            'port' => $port,
-            //'database' => substr(parse_url(getenv('DATABASE_URL'), PHP_URL_PATH), 1),
-            'database' => $database,
-            //'username' => parse_url(getenv('DATABASE_URL'), PHP_URL_USER),
-            'username' => $username,
-            //'password' => parse_url(getenv('DATABASE_URL'), PHP_URL_PASS),
-            'password' => $password,
+            'host' => parse_url(getenv('DATABASE_URL'), PHP_URL_HOST),
+            //'host'     => $host,
+            'port' => parse_url(getenv('DATABASE_URL'), PHP_URL_PORT),
+            //'port' => $port,
+            'database' => substr(parse_url(getenv('DATABASE_URL'), PHP_URL_PATH), 1),
+            //'database' => $database,
+            'username' => parse_url(getenv('DATABASE_URL'), PHP_URL_USER),
+            //'username' => $username,
+            'password' => parse_url(getenv('DATABASE_URL'), PHP_URL_PASS),
+            //'password' => $password,
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
