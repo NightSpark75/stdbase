@@ -5,7 +5,7 @@ $host = $url["host"];
 $port = $url["port"];
 $username = $url["user"];
 $password = $url["pass"];
-$database = substr($url["path"], 1);
+$database = ltrim($url["path"], "/");
 
 return [
 
