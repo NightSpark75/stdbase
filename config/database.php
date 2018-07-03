@@ -1,5 +1,11 @@
 <?php
 
+$url = parse_url(getenv("DATABASE_URL"));
+$host = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$database = substr($url["path"], 1);
+
 return [
 
     /*
@@ -13,7 +19,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,6 +36,7 @@ return [
     | choice installed on your machine before you begin development.
     |
     */
+    
 
     'connections' => [
 
@@ -56,11 +63,15 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => parse_url(getenv('DATABASE_URL'), PHP_URL_HOST),
+            //'host' => parse_url(getenv('DATABASE_URL'), PHP_URL_HOST),
+            'host'     => $host,
             'port' => parse_url(getenv('DATABASE_URL'), PHP_URL_PORT),
-            'database' => substr(parse_url(getenv('DATABASE_URL'), PHP_URL_PATH), 1),
-            'username' => parse_url(getenv('DATABASE_URL'), PHP_URL_USER),
-            'password' => parse_url(getenv('DATABASE_URL'), PHP_URL_PASS),
+            //'database' => substr(parse_url(getenv('DATABASE_URL'), PHP_URL_PATH), 1),
+            'database' => $database,
+            //'username' => parse_url(getenv('DATABASE_URL'), PHP_URL_USER),
+            'username' => $username,
+            //'password' => parse_url(getenv('DATABASE_URL'), PHP_URL_PASS),
+            'password' => $password,
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
